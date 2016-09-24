@@ -1,0 +1,13 @@
+-keep class com.peale_rn_1.MainApplication {
+    <init>();
+    void attachBaseContext(android.content.Context);
+}
+-keep class com.peale_rn_1.MainActivity { <init>(); }
+-keep class com.facebook.react.devsupport.DevSettingsActivity { <init>(); }
+-keep class com.peale_rn_1.ToastModule { <init>(); }
+-keep public class * extends android.app.backup.BackupAgent {
+    <init>();
+}
+-keep public class * extends java.lang.annotation.Annotation {
+    *;
+}
