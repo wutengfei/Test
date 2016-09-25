@@ -86,7 +86,7 @@ public class CandidateTestDaoImpl implements CandidateTestDao {
             return null;
         }
         }*/
-    //查找   这里返回的只有一个CandidateTest，所以不用这里返回的只有一个CandidateTest[]
+    //查找   这里返回的只有一个CandidateTest，所以不用CandidateTest[]
     public CandidateTest find(String userId, int testType, int testAspect, int testDifficulty) {
         db = dbOpenHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT userId, testType, testAspect, testDifficulty FROM test_candidate where userId like ?",
