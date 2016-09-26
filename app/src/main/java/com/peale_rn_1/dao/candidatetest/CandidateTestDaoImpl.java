@@ -17,10 +17,10 @@ public class CandidateTestDaoImpl implements CandidateTestDao {
 
     private DBOpenHelper dbOpenHelper;
     private SQLiteDatabase db;
-    Context context;
+ //  Context context;
 
     public CandidateTestDaoImpl(Context context) {
-        this.context = context;
+      //  this.context = context;
         dbOpenHelper = new DBOpenHelper(context);
     }
 

@@ -3,6 +3,7 @@ package com.peale_rn_1.service.usertest;
 
 import android.content.Context;
 import com.peale_rn_1.MainApplication;
+import com.peale_rn_1.dao.candidatetest.CandidateTestDao;
 import com.peale_rn_1.dao.candidatetest.CandidateTestDaoImpl;
 
 import com.peale_rn_1.dao.candidatetestwords.CandidateTestWordsDaoImpl;
