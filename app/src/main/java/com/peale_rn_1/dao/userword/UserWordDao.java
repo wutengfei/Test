@@ -1,7 +1,6 @@
 package com.peale_rn_1.dao.userword;
 
 
-import com.peale_rn_1.dao.base.DAO;
 import com.peale_rn_1.model.UserWord;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
  * @version 创建时间：2016年6月30日下午 12:25:00
  * 
  */
-public interface UserWordDao extends DAO<UserWord> {
+public interface UserWordDao {
 
 	/**
 	 * 查询指定用户和指定单词的学习记录

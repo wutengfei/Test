@@ -1,17 +1,28 @@
 package com.peale_rn_1.util;
 
+import android.provider.DocumentsContract;
+import android.provider.Settings;
+
+
 import com.peale_rn_1.model.Tb_word;
+import com.peale_rn_1.model.Tb_word_add;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Created by Administrator on 2016/9/5.
@@ -55,6 +66,8 @@ public class XmlFileAnalysis {
     public Tb_word readNode(Element personNode) {
         Tb_word word = new Tb_word();
         word.setName(personNode.getAttribute("name"));   //设置word的name值
+        word.setProThemeNumber(personNode.getAttribute("themenumber"));//设置word所在主题
+        word.setGrade(personNode.getAttribute("grade"));
         NodeList personChildNodes = personNode.getElementsByTagName("property");//获取具体word节点下所有的字节点
 
         for (int index = 0; index < personChildNodes.getLength(); index++) {//遍历所有的字节点
@@ -98,6 +111,22 @@ public class XmlFileAnalysis {
                     word.setProDifficulty(node.getAttribute("value"));
                     continue;
                 }
+               if ("propertyAssociate".equals(node.getAttribute("name"))) {
+                   word.setProAssociate(node.getAttribute("value"));
+                   continue;
+               }
+               if ("propertyAntonym".equals(node.getAttribute("name"))) {
+                   word.setProAntonym(node.getAttribute("value"));
+                   continue;
+               }
+              if ("propertySynonyms".equals(node.getAttribute("name"))) {
+                   word.setProSynonyms(node.getAttribute("value"));
+                   continue;
+               }
+              if ("propertyExtend".equals(node.getAttribute("name"))) {
+                    word.setProExtend(node.getAttribute("value"));
+                    continue;
+               }
                 if ("propertyNcyclopedia".equals(node.getAttribute("name"))) {
                     word.setProNcyclopedia(node.getAttribute("value"));
                     continue;
@@ -106,24 +135,11 @@ public class XmlFileAnalysis {
                     word.setProUse(node.getAttribute("value"));
                     continue;
                 }
-
-                if ("propertyAssociate".equals(node.getAttribute("name"))) {
-                    word.setProAssociate(node.getAttribute("value"));
+                if("propertyExpand".equals(node.getAttribute("name"))){
+                    word.setProExpand(node.getAttribute("value"));
                     continue;
-                }
-                if ("propertyAntonym".equals(node.getAttribute("name"))) {
-                    word.setProAntonym(node.getAttribute("value"));
-                    continue;
-                }
-                if ("propertySynonyms".equals(node.getAttribute("name"))) {
-                    word.setProSynonyms(node.getAttribute("value"));
-                    continue;
-                }
-                if ("propertyExtend".equals(node.getAttribute("name"))) {
-                    word.setProExtend(node.getAttribute("value"));
-                    continue;
-                }
-                 if ("propertyCommonUse".equals(node.getAttribute("name"))) {
+                 }
+                if ("propertyCommonUse".equals(node.getAttribute("name"))) {
                     word.setProCommonUse(node.getAttribute("value"));
                     continue;
                  }
@@ -196,25 +212,24 @@ public class XmlFileAnalysis {
                 }
 
                 if ("pronunciation".equals(node.getAttribute("name"))) {
-                    word.setPronunctionPath(node.getAttribute("path"));
+                    word.setPronunctionPath(node.getAttribute("value"));
                     continue;
                 }
                 if ("picture".equals(node.getAttribute("name"))) {
-                    word.setPicturePath(node.getAttribute("path"));
+                    word.setPicturePath(node.getAttribute("value"));
                     continue;
                 }
                if ("video".equals(node.getAttribute("name"))){
                    switch (node.getAttribute("difficulty")){
                        case "1":
-                           word.setVedioPath1(node.getAttribute("path"));
+                           word.setVedioPath1(node.getAttribute("value"));
                            break;
                        case "2":
-                           word.setVedioPath2(node.getAttribute("path"));;
+                           word.setVedioPath2(node.getAttribute("value"));;
                            break;
                        case "3":
-                           word.setVedioPath3(node.getAttribute("path"));
+                           word.setVedioPath3(node.getAttribute("value"));
                            break;
-
                    }
                }
 

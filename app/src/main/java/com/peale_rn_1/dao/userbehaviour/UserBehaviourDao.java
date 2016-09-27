@@ -1,8 +1,5 @@
 package com.peale_rn_1.dao.userbehaviour;
 
-
-
-import com.peale_rn_1.dao.base.DAO;
 import com.peale_rn_1.model.UserBehaviour;
 
 import java.util.List;
@@ -13,7 +10,7 @@ import java.util.List;
  * @version 创建时间：2016年8月21日下午 20:35:00
  *
  */
-public interface UserBehaviourDao extends DAO<UserBehaviour> {
+public interface UserBehaviourDao {
 
 	/**
 	 * 根据用户ID查询其行为数据

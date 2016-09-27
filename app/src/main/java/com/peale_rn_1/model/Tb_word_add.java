@@ -11,18 +11,7 @@ public class Tb_word_add {
     private String proScene;//情景段落
     private String pathScene;//情景段落发音路径
 
-    public Tb_word_add() {
-    }
-
-    public Tb_word_add(String name, String grade, String proText, String pathText, String proScene, String pathScene) {
-        this.name = name;
-        this.grade = grade;
-        this.proText = proText;
-        this.pathText = pathText;
-        this.proScene = proScene;
-        this.pathScene = pathScene;
-    }
-
+    public Tb_word_add() {}
     public String getName() {
         return name;
     }

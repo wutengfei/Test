@@ -1,7 +1,7 @@
+/*
 package com.peale_rn_1.service.userword;
 
 
-import com.peale_rn_1.dao.userword.UserWordDao;
 import com.peale_rn_1.dao.userword.UserWordDaoImpl;
 import com.peale_rn_1.model.UserWord;
 
@@ -38,3 +38,5 @@ public class UserWordServiceImpl implements UserWordService {
         return 0;
     }
 }
+
+*/

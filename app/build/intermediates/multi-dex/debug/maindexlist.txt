@@ -125,6 +125,7 @@ android/support/v4/widget/MaterialProgressDrawable.class
 android/support/annotation/DrawableRes.class
 com/facebook/react/uimanager/BaseViewManager.class
 android/support/v4/media/MediaBrowserCompat$MediaBrowserServiceCallbackImpl.class
+com/peale_rn_1/control/RNResourcePackage.class
 com/facebook/react/modules/core/DeviceEventManagerModule.class
 com/facebook/soloader/SoLoader.class
 com/facebook/react/common/SingleThreadAsserter.class
@@ -305,6 +306,7 @@ javax/annotation/Nonnull$Checker.class
 android/support/v4/view/MenuCompat.class
 com/lidroid/xutils/view/annotation/event/OnGroupClick.class
 android/support/v7/app/ActionBar$DisplayOptions.class
+com/peale_rn_1/control/RNTestPackage.class
 android/support/v4/media/MediaBrowserCompat$MediaBrowserImpl.class
 com/facebook/imagepipeline/request/BasePostprocessor.class
 android/support/v4/media/session/PlaybackStateCompat$CustomAction.class
@@ -318,6 +320,7 @@ android/support/v7/app/ActionBar$TabListener.class
 com/facebook/react/bridge/ReactMethod.class
 com/facebook/react/modules/websocket/WebSocketModule.class
 com/facebook/infer/annotation/Initializer.class
+com/peale_rn_1/control/RNResourceManager.class
 com/facebook/infer/annotation/SuppressFieldNotInitialized.class
 com/facebook/react/bridge/ReactContext.class
 android/support/v4/media/MediaBrowserCompat$1.class
@@ -494,7 +497,6 @@ com/facebook/react/common/ShakeDetector.class
 android/support/annotation/NonNull.class
 com/facebook/react/views/imagehelper/MultiSourceHelper$MultiSourceResult.class
 com/peale_rn_1/control/RNUserManager.class
--keep class com.peale_rn_1.ToastModule { <init>(); }
 android/support/annotation/IntDef.class
 com/facebook/imageutils/BitmapUtil.class
 com/lidroid/xutils/view/annotation/event/OnCompoundButtonCheckedChange.class
@@ -544,6 +546,7 @@ com/facebook/react/uimanager/ReactStylesDiffMap.class
 android/support/v7/internal/widget/TintTypedArray.class
 android/support/v4/view/ViewCompat$ICSMr1ViewCompatImpl.class
 android/support/v4/media/MediaBrowserCompat$ConnectionCallback.class
+com/peale_rn_1/control/RNTestManager.class
 com/lidroid/xutils/view/annotation/event/OnStartTrackingTouch.class
 javax/annotation/meta/TypeQualifierValidator.class
 android/support/annotation/UiThread.class

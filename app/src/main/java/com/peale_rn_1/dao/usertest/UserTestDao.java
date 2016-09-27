@@ -1,10 +1,8 @@
 package com.peale_rn_1.dao.usertest;
 
-
-
-import com.peale_rn_1.dao.base.DAO;
 import com.peale_rn_1.model.UserTest;
 
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -21,5 +19,5 @@ public interface UserTestDao  {
 	 * @param flag 1:测试过的数据 0：还未测试的数据
 	 * @return
 	 */
-	public List<UserTest> find(String userId, int flag);
+	public List<UserTest> find(String userId, int flag) throws ParseException;
 }

@@ -1,8 +1,7 @@
 package com.peale_rn_1.dao.candidatetestwords;
 
 
-import dao.base.DAO;
-import entity.CandidateTestWords;
+import com.peale_rn_1.model.CandidateTestWords;
 
 /**
  * 
@@ -10,7 +9,7 @@ import entity.CandidateTestWords;
  * @version 创建时间：2016年6月16日下午 15:59:00
  *
  */
-public interface CandidateTestWordsDao extends DAO<CandidateTestWords> {
+public interface CandidateTestWordsDao  {
 
 	/**
 	 * 获取指定用户指定难度的备考内容 并移除表中

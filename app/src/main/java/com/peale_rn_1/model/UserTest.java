@@ -37,6 +37,21 @@ public class UserTest {
         this.endTime = endTime;
     }
 
+    public UserTest(int id, String userId, String word, int testType, int testAspect, int testDifficulty, int rightTimes,
+                    int wrongTimes, int totalTimes, Date startTime, Date endTime) {
+        this.id = id;
+        this.userId = userId;
+        this.word = word;
+        this.testType = testType;
+        this.testAspect = testAspect;
+        this.testDifficulty = testDifficulty;
+        this.rightTimes = rightTimes;
+        this.wrongTimes = wrongTimes;
+        this.totalTimes = totalTimes;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public int getId() {
         return id;
     }

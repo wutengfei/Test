@@ -1,9 +1,19 @@
 package com.peale_rn_1.control;
 
-import com.facebook.react.bridge.*;
+import android.widget.Toast;
+
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.IllegalViewOperationException;
 import com.peale_rn_1.dao.UserDAO;
 import com.peale_rn_1.model.Tb_user;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/9/2.

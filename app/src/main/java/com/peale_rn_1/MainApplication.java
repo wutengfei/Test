@@ -9,6 +9,8 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.peale_rn_1.control.RNFilePackage;
+import com.peale_rn_1.control.RNResourcePackage;
+import com.peale_rn_1.control.RNTestPackage;
 import com.peale_rn_1.control.RNUserPackage;
 
 import java.util.Arrays;
@@ -27,9 +29,11 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-                    // <-- 添加这一行，类名替换成你的Package类的名字.
-                    new RNFilePackage(),
-                    new RNUserPackage()
+
+                    new RNFilePackage(),//自定义模块，文件下载
+                    new RNUserPackage(),//自定义模块，用户方面
+                    new RNResourcePackage(), //自定义模块，资源方面
+                    new RNTestPackage()
             );
         }
     };
@@ -40,11 +44,13 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     private static Context context;
+
     @Override
     public void onCreate() {
-        context=getApplicationContext();
+        context = getApplicationContext();
     }
-    public static Context getContext(){
+
+    public static Context getContext() {
         return context;
     }
 

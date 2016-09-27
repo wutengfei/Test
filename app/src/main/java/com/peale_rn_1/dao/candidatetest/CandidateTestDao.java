@@ -2,7 +2,7 @@ package com.peale_rn_1.dao.candidatetest;
 
 
 
-import com.peale_rn_1.dao.base.DAO;
+
 import com.peale_rn_1.model.CandidateTest;
 
 import java.util.List;

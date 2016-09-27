@@ -1,44 +1,38 @@
 package com.peale_rn_1.service.usertest;
 
 
-import android.content.Context;
 import com.peale_rn_1.MainApplication;
-import com.peale_rn_1.dao.candidatetest.CandidateTestDao;
 import com.peale_rn_1.dao.candidatetest.CandidateTestDaoImpl;
-
 import com.peale_rn_1.dao.candidatetestwords.CandidateTestWordsDaoImpl;
-
-import com.peale_rn_1.dao.testpreference.TestPreferenceDaoImpl;
-
 import com.peale_rn_1.dao.usertest.UserTestDaoImpl;
 import com.peale_rn_1.model.CandidateTest;
 import com.peale_rn_1.model.CandidateTestWords;
 import com.peale_rn_1.model.UserTest;
-
 import com.peale_rn_1.service.candidatetest.CandidateTestServiceImpl;
-
 import com.peale_rn_1.service.testpreference.TestPreferenceServiceImpl;
 
-
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 
 public class UserTestServiceImpl implements UserTestService {
+    public UserTestServiceImpl() {
+    }
 
-    UserTestDaoImpl userTestDao = new UserTestDaoImpl();
-    CandidateTestWordsDaoImpl candidateTestWordsDao = new CandidateTestWordsDaoImpl();
+    UserTestDaoImpl userTestDao = new UserTestDaoImpl(MainApplication.getContext());
+    CandidateTestWordsDaoImpl candidateTestWordsDao = new CandidateTestWordsDaoImpl(MainApplication.getContext());
     CandidateTestDaoImpl candidateTestDao = new CandidateTestDaoImpl(MainApplication.getContext());
     CandidateTestServiceImpl candidateTestService = new CandidateTestServiceImpl();
-    TestPreferenceDaoImpl testPreferenceDao = new TestPreferenceDaoImpl();
     TestPreferenceServiceImpl testPreferenceService = new TestPreferenceServiceImpl();
 
     @Override
     public void addUserTest1(String userId, String word, int testType, int testAspect, int testDifficulty,
                              int rightTimes, int wrongTimes, int totalTimes, Date startTime, Date endTime) {
-
-        userTestDao.save(new UserTest(userId, word, testType, testAspect, testDifficulty, rightTimes, wrongTimes, totalTimes, startTime, endTime));
+        UserTest userTest = new UserTest(userId, word, testType, testAspect, testDifficulty, rightTimes, wrongTimes,
+                totalTimes, startTime, endTime);
+        userTestDao.save(userTest);
         if (wrongTimes > 0) {
             CandidateTestWords ctw = new CandidateTestWords(userId, word, 2);
             if (candidateTestWordsDao.find(ctw.getUserId(), ctw.getWord()) == null)
@@ -53,8 +47,7 @@ public class UserTestServiceImpl implements UserTestService {
     }
 
     @Override
-    public UserTest TestFourGroup(String userId, String[] words, int index) {
-        // TODO Auto-generated method stub
+    public UserTest TestFourGroup(String userId, String[] words, int index) throws ParseException {
         //如果是获取第2，3,4道题目，则直接去用户测试表中获取
         for (int i = 0; i < 5; i++)
             System.out.println("要考的单词：" + words[i]);
@@ -76,9 +69,12 @@ public class UserTestServiceImpl implements UserTestService {
         int max = 0;
         int min = 0;
         int i = 0;
-        for (CandidateTest ct : ctlist) {
-            Recommend[i] = testPreferenceService.recommendByPreference(ct.getUserId(), ct.getTestType(), ct.getTestAspect(), ct.getTestDifficulty());
-            System.out.println(ct.getTestType() + "/" + ct.getTestAspect() + "/" + ct.getTestDifficulty() + "的推荐度为：" + Recommend[i]);
+        for (i=0;i<5;i++) {
+            CandidateTest ct=ctlist.get(i);
+            Recommend[i] = testPreferenceService.recommendByPreference(ct.getUserId(), ct.getTestType(), ct.getTestAspect(),
+                    ct.getTestDifficulty());
+            System.out.println(ct.getTestType() + "/" + ct.getTestAspect() + "/" + ct.getTestDifficulty() + "的推荐度为：" +
+                    "" + Recommend[i]);
             if (i > 0 && Recommend[max] < Recommend[i])
                 max = i;
             if (i > 0 && Recommend[min] > Recommend[i])
@@ -112,7 +108,7 @@ public class UserTestServiceImpl implements UserTestService {
             words[testword] = null;
         }
         //从备考单词中抽取两个单词===================稍后再写此功能
-  /*      UserInfo ui = userInfoDao.find(userId);
+   /*   UserInfo ui = userInfoDao.find(userId);
         int[] wd = new int[2];
         if (ui.getBeforeLevel() <= 2) {
             wd[0] = 2;
@@ -135,8 +131,11 @@ public class UserTestServiceImpl implements UserTestService {
         else fourGroup[3][0] = "extraword2";
         */
         //写入用户测试表中
-        for (i = 0; i < 4; i++)
-            userTestDao.save(new UserTest(userId, (String) fourGroup[i][0], (int) fourGroup[i][1], (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, new Date(), null));
+        for (i = 0; i < 4; i++) {
+            UserTest userTest = new UserTest(userId, (String) fourGroup[i][0], (int) fourGroup[i][1],
+                    (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, new Date(), null);
+            userTestDao.save(userTest);
+        }
         List<UserTest> utlist = userTestDao.find(userId, 0);
         userTestDao.delete(utlist.get(utlist.size() - 4).getId());  //返回一道题目就删掉出题记录
         return utlist.get(0);

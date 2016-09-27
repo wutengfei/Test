@@ -24,10 +24,6 @@
     <init>();
 }
 
--keep class com.peale_rn_1.ToastModule {
-    <init>();
-}
-
 -keep public class * extends android.app.backup.BackupAgent {
     <init>();
 }

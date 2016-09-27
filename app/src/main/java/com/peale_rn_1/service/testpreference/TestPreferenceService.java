@@ -1,6 +1,7 @@
 package com.peale_rn_1.service.testpreference;
 
 
+import java.text.ParseException;
 
 /**用户测试偏好
  * @author 刘玉婷
@@ -12,7 +13,7 @@ public interface TestPreferenceService {
 	 * 根据用户ID去更新用户对各测试特征的偏好
 	 * @param userId
 	 */
-	public void updateTestPreference(String userId);
+	public void updateTestPreference(String userId) throws ParseException;
 	
 	/**
 	 * 添加指定用户的测试偏好数据的记录（默认偏好值）

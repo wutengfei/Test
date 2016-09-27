@@ -1,6 +1,15 @@
 package com.peale_rn_1.util;
 
-import java.io.*;
+import android.util.Log;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -25,45 +34,7 @@ public class DecompressZip {
         this._location = location;
     }
 
-    public String unzip() {
-        long startTime=System.currentTimeMillis();
-
-        try {
-            ZipInputStream Zin = new ZipInputStream(new FileInputStream(this._zipFile));//输入源zip路径
-            BufferedInputStream Bin=new BufferedInputStream(Zin);
-            File Fout=null;
-            ZipEntry entry;
-            try {
-                while((entry = Zin.getNextEntry())!=null && !entry.isDirectory()){
-                    Fout=new File(this._location,entry.getName());
-                    if(!Fout.exists()){
-                        (new File(Fout.getParent())).mkdirs();
-                    }
-                    FileOutputStream out=new FileOutputStream(Fout);
-                    BufferedOutputStream Bout=new BufferedOutputStream(out);
-                    int b;
-                    while((b=Bin.read())!=-1){
-                        Bout.write(b);
-                    }
-                    Bout.close();
-                    out.close();
-                    System.out.println(Fout+"解压成功");
-                }
-                Bin.close();
-                Zin.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        long endTime=System.currentTimeMillis();
-        System.out.println("耗费时间： "+(endTime-startTime)+" ms");
-        return "success";
-
-    }
-
-  /*  public String unzip() {
+  public String unzip() {
         FileInputStream fin = null;
         OutputStream fout = null;
         ZipInputStream zin = null;
@@ -93,26 +64,25 @@ public class DecompressZip {
             }
             zin.close();
             zin = null;
-            tmp.delete();
              return "success";
         }catch (IOException e){
             throw new RuntimeException(e);
         } finally {
            // tmp.delete();
             if(tmp != null){ try {
-                tmp.deleteOnExit();}catch (Exception ignore){;} }
+                tmp.delete();}catch (Exception ignore){;} }
             if(fout != null) { try { fout.close();} catch (Exception ignore){;} }
             if(zin != null) { try { zin.closeEntry();} catch (Exception ignore){;} }
             if(fin != null) { try { fin.close();} catch (Exception ignore){;} }
 
         }
 
-    }*/
+    }
 
-    /*private void dirChecker(String dir){
+    private void dirChecker(String dir){
         File f = new File(_location  + dir);
         if(!f.isDirectory()){
             f.mkdirs();
         }
-    }*/
+    }
 }

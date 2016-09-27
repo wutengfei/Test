@@ -1,7 +1,6 @@
 package com.peale_rn_1.service.candidatetest;
 
 
-import android.content.Context;
 import com.peale_rn_1.MainApplication;
 import com.peale_rn_1.dao.candidatetest.CandidateTestDaoImpl;
 import com.peale_rn_1.model.CandidateTest;

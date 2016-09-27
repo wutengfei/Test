@@ -1,3 +1,4 @@
+/*
 package com.peale_rn_1.service.userbehaviour;
 
 import com.peale_rn_1.dao.userbehaviour.UserBehaviourDao;
@@ -32,3 +33,4 @@ public class UserBehaviourServiceImpl implements UserBehaviourService {
 	}
 
 }
+*/

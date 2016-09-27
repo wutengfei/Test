@@ -1,13 +1,12 @@
+/*
 package com.peale_rn_1.dao.userbehaviour;
 
-import dao.base.DaoSupport;
-import dao.userbehaviour.UserBehaviourDao;
-import entity.UserBehaviour;
+import com.peale_rn_1.model.UserBehaviour;
 
 import java.util.List;
 
 
-public class UserBehaviourDaoImpl extends DaoSupport<UserBehaviour> implements UserBehaviourDao {
+public class UserBehaviourDaoImpl implements UserBehaviourDao {
 
 	@Override
 	public List<UserBehaviour> find(String userId) {
@@ -16,4 +15,6 @@ public class UserBehaviourDaoImpl extends DaoSupport<UserBehaviour> implements U
 		return list;
 	}
 
+
 }
+*/

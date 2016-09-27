@@ -3,6 +3,7 @@ package com.peale_rn_1.service.usertest;
 
 import com.peale_rn_1.model.UserTest;
 
+import java.text.ParseException;
 import java.util.Date;
 
 
@@ -35,5 +36,5 @@ public interface UserTestService {
      * @param index 第几道题
      * @return 四元组
      */
-    public UserTest TestFourGroup(String userId, String[] words, int index);
+    public UserTest TestFourGroup(String userId, String[] words, int index) throws ParseException;
 }

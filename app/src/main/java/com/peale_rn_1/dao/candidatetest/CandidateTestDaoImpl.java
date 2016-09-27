@@ -17,10 +17,8 @@ public class CandidateTestDaoImpl implements CandidateTestDao {
 
     private DBOpenHelper dbOpenHelper;
     private SQLiteDatabase db;
- //  Context context;
 
     public CandidateTestDaoImpl(Context context) {
-      //  this.context = context;
         dbOpenHelper = new DBOpenHelper(context);
     }
 
@@ -58,48 +56,47 @@ public class CandidateTestDaoImpl implements CandidateTestDao {
     @Override
     public List<CandidateTest> getCandidate(String userId) {
         db = dbOpenHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT userId, testType, testAspect, testDifficulty FROM test_candidate where " +
-                "userId like ? and candidate like 1", new String[]{userId});
+        Cursor cursor = db.rawQuery("SELECT * FROM test_candidate where " +
+                "userId like ? and candidate = 1", new String[]{userId});
 
         int resultCounts = cursor.getCount();
         if (resultCounts == 0 || !cursor.moveToFirst()) return null;
-        CandidateTest[] candidate=new CandidateTest[ resultCounts];
+        CandidateTest[] candidateTest = new CandidateTest[resultCounts];
         for (int i = 0; i < resultCounts; i++) {
-            candidate[i]=new CandidateTest();
-            candidate[i].setUserId(cursor.getString(cursor.getColumnIndex(userId)));
-            candidate[i].setTestType(cursor.getInt(1));
-            candidate[i].setTestAspect(cursor.getInt(2));
-            candidate[i].setTestDifficulty(cursor.getInt(3));
+            candidateTest[i] = new CandidateTest();
+            candidateTest[i].setUserId(cursor.getString(cursor.getColumnIndex("userId")));
+            candidateTest[i].setTestType(cursor.getInt(cursor.getColumnIndex("testType")));
+            candidateTest[i].setTestAspect(cursor.getInt(cursor.getColumnIndex("testAspect")));
+            candidateTest[i].setTestDifficulty(cursor.getInt(cursor.getColumnIndex("testDifficulty")));
+            candidateTest[i].setPass1Count(cursor.getInt(cursor.getColumnIndex("pass1Count")));
+            candidateTest[i].setPass2Count(cursor.getInt(cursor.getColumnIndex("pass2Count")));
+            candidateTest[i].setPass3Count(cursor.getInt(cursor.getColumnIndex("pass3Count")));
+            candidateTest[i].setCandidate(cursor.getInt(cursor.getColumnIndex("candidate")));
             cursor.moveToNext();
         }
         db.close();
         //把CandidateTest[]数组中的东西放入 List<CandidateTest>
-        List<CandidateTest> candidateList = Arrays.asList(candidate);
+        List<CandidateTest> candidateList = Arrays.asList(candidateTest);
         return candidateList;
     }
 
-    /*	@Override
-        public List<CandidateTest> getCandidate(String userId) {
-            List<CandidateTest> list = getHt().find("From CandidateTest o where o.userId=? and o.candidate=1",userId);
-            if(list != null && list.size() >= 5)
-                return list;
-            return null;
-        }
-        }*/
     //查找   这里返回的只有一个CandidateTest，所以不用CandidateTest[]
     public CandidateTest find(String userId, int testType, int testAspect, int testDifficulty) {
         db = dbOpenHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT userId, testType, testAspect, testDifficulty FROM test_candidate where userId like ?",
+        Cursor cursor = db.rawQuery("SELECT * FROM test_candidate where userId like ?",
                 new String[]{userId});
         if (cursor.moveToNext()) {
             CandidateTest candidateTest = new CandidateTest();
-            candidateTest.setUserId(cursor.getString(cursor.getColumnIndex(userId)));
-            candidateTest.setTestType(cursor.getInt(1));
-            candidateTest.setTestAspect(cursor.getInt(2));
-            candidateTest.setTestDifficulty(cursor.getInt(3));
+            candidateTest.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
+            candidateTest.setTestType(cursor.getInt(cursor.getColumnIndex("testType")));
+            candidateTest.setTestAspect(cursor.getInt(cursor.getColumnIndex("testAspect")));
+            candidateTest.setTestDifficulty(cursor.getInt(cursor.getColumnIndex("testDifficulty")));
+            candidateTest.setPass1Count(cursor.getInt(cursor.getColumnIndex("pass1Count")));
+            candidateTest.setPass2Count(cursor.getInt(cursor.getColumnIndex("pass2Count")));
+            candidateTest.setPass3Count(cursor.getInt(cursor.getColumnIndex("pass3Count")));
+            candidateTest.setCandidate(cursor.getInt(cursor.getColumnIndex("candidate")));
             db.close();
             return candidateTest;
-
         }
         db.close();
         return null;
@@ -111,27 +108,28 @@ public class CandidateTestDaoImpl implements CandidateTestDao {
         String queryParam1 = queryParams[1] + "";
         String queryParam2 = queryParams[2] + "";
         db = dbOpenHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM test_candidate WHERE userId like ? and testDifficulty like ? and " +
-                "candidate like ?", new String[]{queryParam0, queryParam1, queryParam2});
-        return ConvertToBook(cursor);
+        Cursor cursor = db.rawQuery("SELECT * FROM test_candidate WHERE userId like ? and testDifficulty = ? and " +
+                "candidate = ?", new String[]{queryParam0, queryParam1, queryParam2});
+        return ConvertToCandidateTest(cursor);
     }
 
-    private CandidateTest[] ConvertToBook(Cursor cursor) {
+    private CandidateTest[] ConvertToCandidateTest(Cursor cursor) {
         int resultCounts = cursor.getCount();
         if (resultCounts == 0 || !cursor.moveToFirst()) return null;
-        CandidateTest[] CandidateTest = new CandidateTest[resultCounts];
+        CandidateTest[] candidateTest = new CandidateTest[resultCounts];
         for (int i = 0; i < resultCounts; i++) {
-            CandidateTest[i] = new CandidateTest();
-            CandidateTest[i].setUserId(cursor.getString(0));
-            CandidateTest[i].setTestType(cursor.getInt(1));
-            CandidateTest[i].setTestAspect(cursor.getInt(2));
-            CandidateTest[i].setTestDifficulty(cursor.getInt(3));
-            CandidateTest[i].setPass1Count(cursor.getInt(4));
-            CandidateTest[i].setPass2Count(cursor.getInt(5));
-            CandidateTest[i].setPass3Count(cursor.getInt(6));
-            CandidateTest[i].setCandidate(cursor.getInt(7));
+            candidateTest[i] = new CandidateTest();
+            candidateTest[i].setUserId(cursor.getString(cursor.getColumnIndex("userId")));
+            candidateTest[i].setTestType(cursor.getInt(cursor.getColumnIndex("testType")));
+            candidateTest[i].setTestAspect(cursor.getInt(cursor.getColumnIndex("testAspect")));
+            candidateTest[i].setTestDifficulty(cursor.getInt(cursor.getColumnIndex("testDifficulty")));
+            candidateTest[i].setPass1Count(cursor.getInt(cursor.getColumnIndex("pass1Count")));
+            candidateTest[i].setPass2Count(cursor.getInt(cursor.getColumnIndex("pass2Count")));
+            candidateTest[i].setPass3Count(cursor.getInt(cursor.getColumnIndex("pass3Count")));
+            candidateTest[i].setCandidate(cursor.getInt(cursor.getColumnIndex("candidate")));
             cursor.moveToNext();
         }
-        return CandidateTest;
+        db.close();
+        return candidateTest;
     }
 }

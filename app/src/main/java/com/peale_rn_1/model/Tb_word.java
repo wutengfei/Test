@@ -1,5 +1,7 @@
 package com.peale_rn_1.model;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/9/6.
  */
@@ -7,6 +9,8 @@ public class Tb_word {
     private String name;//单词
     private String proID;//单词ID
     //private String proFunction;//单词
+    private String proThemeNumber;//单词主题
+    private String grade;//单词所在的年级
     private String proTopic;//单词主题
     private String proClass;//单词同类
     private String proPartsOfSpeech;//词性
@@ -15,30 +19,14 @@ public class Tb_word {
     private String proVersion;//单词教材
     private String proBook;//单词册数
     private String proDifficulty;//单词难度
-    private String proNcyclopedia;//百科
-    private String proUse;//用法
     private String proAssociate;//联想到的单词
     private String proAntonym;//同义词
     private String proSynonyms;//反义词
-    private String proExtend;//拓展
+    private String proExtend;//拓展（单词）
+    private String proNcyclopedia;//百科
+    private String proUse;//用法
+    private String proExpand;//延伸例句
     private String proCommonUse;//常用
-    private String pronunctionPath;//单词发音路径
-    private String picturePath;//图片路径
-    private String vedioPath1;//视频路径难度1
-    private String vedioPath2;//视频路径难度2
-    private String vedioPath3;//视频路径难度3
-    private String proText1;//课文原句
-    private String proText2;//课文原句
-    private String proText3;//课文原句
-    private String proText4;//课文原句
-    private String proText5;//课文原句
-    private String proText6;//课文原句
-    private String pathText1;//课文原句发音路径
-    private String pathText2;//课文原句发音路径
-    private String pathText3;//课文原句发音路径
-    private String pathText4;//课文原句发音路径
-    private String pathText5;//课文原句发音路径
-    private String pathText6;//课文原句发音路径
     //private String pathText1;//课文原句发音路径
     private String proScene1;//情景段落
     private String proScene2;//情景段落
@@ -53,7 +41,77 @@ public class Tb_word {
     private String pathScene5;//情景段落发音路径
     private String pathScene6;//情景段落发音路径
 
+    private String proText1;//课文原句
+    private String proText2;//课文原句
+    private String proText3;//课文原句
+    private String proText4;//课文原句
+    private String proText5;//课文原句
+    private String proText6;//课文原句
+    private String pathText1;//课文原句发音路径
+    private String pathText2;//课文原句发音路径
+    private String pathText3;//课文原句发音路径
+    private String pathText4;//课文原句发音路径
+    private String pathText5;//课文原句发音路径
+    private String pathText6;//课文原句发音路径
+    private String pronunctionPath;//单词发音路径
+    private String picturePath;//图片路径
+    private String vedioPath1;//视频路径难度1
+    private String vedioPath2;//视频路径难度2
+    private String vedioPath3;//视频路径难度3
+
     public Tb_word() {};
+
+    public Tb_word(String name, String proID, String proThemeNumber, String grade, String proTopic, String proClass, String proPartsOfSpeech, String proWordProperty, String proChinese, String proVersion, String proBook, String proDifficulty, String proAssociate, String proAntonym, String proSynonyms, String proExtend, String proNcyclopedia, String proUse, String proExpand, String proCommonUse, String proScene1, String proScene2, String proScene3, String proScene4, String proScene5, String proScene6, String pathScene1, String pathScene2, String pathScene3, String pathScene4, String pathScene5, String pathScene6, String proText1, String proText2, String proText3, String proText4, String proText5, String proText6, String pathText1, String pathText2, String pathText3, String pathText4, String pathText5, String pathText6, String pronunctionPath, String picturePath, String vedioPath1, String vedioPath2, String vedioPath3) {
+        this.name = name;
+        this.proID = proID;
+        this.proThemeNumber = proThemeNumber;
+        this.grade = grade;
+        this.proTopic = proTopic;
+        this.proClass = proClass;
+        this.proPartsOfSpeech = proPartsOfSpeech;
+        this.proWordProperty = proWordProperty;
+        this.proChinese = proChinese;
+        this.proVersion = proVersion;
+        this.proBook = proBook;
+        this.proDifficulty = proDifficulty;
+        this.proAssociate = proAssociate;
+        this.proAntonym = proAntonym;
+        this.proSynonyms = proSynonyms;
+        this.proExtend = proExtend;
+        this.proNcyclopedia = proNcyclopedia;
+        this.proUse = proUse;
+        this.proExpand = proExpand;
+        this.proCommonUse = proCommonUse;
+        this.proScene1 = proScene1;
+        this.proScene2 = proScene2;
+        this.proScene3 = proScene3;
+        this.proScene4 = proScene4;
+        this.proScene5 = proScene5;
+        this.proScene6 = proScene6;
+        this.pathScene1 = pathScene1;
+        this.pathScene2 = pathScene2;
+        this.pathScene3 = pathScene3;
+        this.pathScene4 = pathScene4;
+        this.pathScene5 = pathScene5;
+        this.pathScene6 = pathScene6;
+        this.proText1 = proText1;
+        this.proText2 = proText2;
+        this.proText3 = proText3;
+        this.proText4 = proText4;
+        this.proText5 = proText5;
+        this.proText6 = proText6;
+        this.pathText1 = pathText1;
+        this.pathText2 = pathText2;
+        this.pathText3 = pathText3;
+        this.pathText4 = pathText4;
+        this.pathText5 = pathText5;
+        this.pathText6 = pathText6;
+        this.pronunctionPath = pronunctionPath;
+        this.picturePath = picturePath;
+        this.vedioPath1 = vedioPath1;
+        this.vedioPath2 = vedioPath2;
+        this.vedioPath3 = vedioPath3;
+    }
 
     public String getName() {
         return name;
@@ -69,6 +127,22 @@ public class Tb_word {
 
     public void setProID(String proID) {
         this.proID = proID;
+    }
+
+    public String getProThemeNumber() {
+        return proThemeNumber;
+    }
+
+    public void setProThemeNumber(String proThemeNumber) {
+        this.proThemeNumber = proThemeNumber;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public String getProTopic() {
@@ -423,4 +497,11 @@ public class Tb_word {
         this.pathScene6 = pathScene6;
     }
 
+    public String getProExpand() {
+        return proExpand;
+    }
+
+    public void setProExpand(String proExpand) {
+        this.proExpand = proExpand;
+    }
 }

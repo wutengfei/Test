@@ -94,7 +94,7 @@ MERGED from [com.facebook.soloader:soloader:0.1.0] E:\reactNative\Test\android\a
 	android:theme
 		ADDED from E:\reactNative\Test\android\app\src\main\AndroidManifest.xml:22:13-44
 	android:name
-		ADDED from E:\reactNative\Test\android\app\src\main\AndroidManifest.xml:18:13-44
+		ADDED from E:\reactNative\Test\android\app\src\main\AndroidManifest.xml:18:13-58
 activity#com.peale_rn_1.MainActivity
 ADDED from E:\reactNative\Test\android\app\src\main\AndroidManifest.xml:23:9-32:20
 	android:label
@@ -117,9 +117,5 @@ activity#com.facebook.react.devsupport.DevSettingsActivity
 ADDED from E:\reactNative\Test\android\app\src\main\AndroidManifest.xml:33:9-85
 	android:name
 		ADDED from E:\reactNative\Test\android\app\src\main\AndroidManifest.xml:33:19-83
-activity#com.peale_rn_1.ToastModule
-ADDED from E:\reactNative\Test\android\app\src\main\AndroidManifest.xml:34:9-35:20
-	android:name
-		ADDED from E:\reactNative\Test\android\app\src\main\AndroidManifest.xml:34:19-46
 android:uses-permission#android.permission.READ_PHONE_STATE
 IMPLIED from E:\reactNative\Test\android\app\src\main\AndroidManifest.xml:2:1-38:12 reason: org.webkit.android_jsc has a targetSdkVersion < 4

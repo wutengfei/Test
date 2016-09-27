@@ -5,12 +5,11 @@ import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
+//import com.nativemoduletest.MyToastModuleTest;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-//import com.nativemoduletest.MyToastModuleTest;
 
 /**
  * Created by dell on 2016/7/19.

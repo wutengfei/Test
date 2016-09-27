@@ -1,13 +1,11 @@
+
 package com.peale_rn_1.dao.userword;
 
 
-import com.peale_rn_1.dao.base.DaoSupport;
 import com.peale_rn_1.model.UserWord;
-
 import java.util.List;
 
-
-public class UserWordDaoImpl extends DaoSupport<UserWord> implements UserWordDao {
+public class UserWordDaoImpl implements UserWordDao {
 
 	@Override
 	public List<UserWord> find(String userId, String word) {
@@ -32,3 +30,4 @@ public class UserWordDaoImpl extends DaoSupport<UserWord> implements UserWordDao
 
 	
 }
+*/

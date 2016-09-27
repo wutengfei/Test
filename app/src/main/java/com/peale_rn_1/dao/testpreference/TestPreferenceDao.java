@@ -1,7 +1,6 @@
 package com.peale_rn_1.dao.testpreference;
 
 
-import com.peale_rn_1.dao.base.DAO;
 import com.peale_rn_1.model.TestPreference;
 
 /**
@@ -10,7 +9,7 @@ import com.peale_rn_1.model.TestPreference;
  * @version 创建时间：2016年6月16日下午 15:47:00
  *
  */
-public interface TestPreferenceDao extends DAO<TestPreference> {
+public interface TestPreferenceDao {
 
 	/**
 	 * 查找指定用户指定测试特征指定取值的偏好
