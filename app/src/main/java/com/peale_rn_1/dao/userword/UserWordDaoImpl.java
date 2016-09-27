@@ -9,7 +9,7 @@ public class UserWordDaoImpl implements UserWordDao {
 
 	@Override
 	public List<UserWord> find(String userId, String word) {
-		// TODO Auto-generated method stub
+
 		List<UserWord> list = getHt().find("From UserWord o where o.userId=? and o.word=?", userId,word);
 		return list;
 	}
