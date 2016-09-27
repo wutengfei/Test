@@ -3,6 +3,7 @@ package com.peale_rn_1.dao.userword;
 
 import com.peale_rn_1.model.UserWord;
 
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -20,7 +21,7 @@ public interface UserWordDao {
 	 * @param word
 	 * @return 
 	 */
-	public List<UserWord> find(String userId, String word);
+	public List<UserWord> find(String userId, String word) throws ParseException;
 	
 	/**
 	 * 查询指定用户和指定级别的单词的学习记录
@@ -29,7 +30,7 @@ public interface UserWordDao {
 	 * @param topiclevel
 	 * @return 
 	 */
-	public List<UserWord> findAll(String userId, String word, int topiclevel);
+	public List<UserWord> findAll(String userId, String word, int topiclevel) throws ParseException;
 	
 	/**
 	 * 查询指定级别的单词的被学习记录
@@ -37,6 +38,6 @@ public interface UserWordDao {
 	 * @param topiclevel
 	 * @return
 	 */
-	public List<UserWord> findlearncount(String word, int topiclevel);
+	public List<UserWord> findlearncount(String word, int topiclevel) throws ParseException;
 	
 }
