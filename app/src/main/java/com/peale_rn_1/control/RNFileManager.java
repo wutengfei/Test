@@ -40,46 +40,13 @@ public class RNFileManager extends ReactContextBaseJavaModule {
 
    @ReactMethod
   //  public void startDownload(String url,String titleID,String dayClick,String recommendDayId,String fileName,Callback successCallback, Callback errorCallback) {
-   public void startDownload(String url,String titleID,String dayClick,String recommendDayId,String fileName,Callback successCallback, Callback errorCallback) {
-        try {
+   public void startDownload(String url) {
+
             Toast.makeText(getReactApplicationContext(), "开始下载资源，请耐心等待！", Toast.LENGTH_LONG).show();
             //这里提供下载
-         //   String string = new DownloadTask().downloadAllAssets(url); //主要为了测试解析
+        String string = new DownloadTask().downloadAllAssets(url); //主要为了测试解析
             //这里需要周亮提供给我的文件名称
-            String string = "success";
-            if (string.equals("success")) {
-                Toast.makeText(getReactApplicationContext(), "下载完毕，正在解析资源！", Toast.LENGTH_LONG);
-                //然后进行xml文件等解析
-                String Path = outputDir.getPath() + File.separator;
-                String filePath = Path + fileName;
-                //调用XmlFileAnalysis类，
-                if (dayClick.equals(recommendDayId)) {
-                    //等于，说明是主文件，主文件的方法跟从属文件不一样
-                    XmlFileAnalysis xmlFileAnalysis = new XmlFileAnalysis(Path, fileName);
-                    List<Tb_word> words = xmlFileAnalysis.readXML();
-                    WordDAO wordDAO = new WordDAO(getReactApplicationContext());
-                    wordDAO.insert(words);
-                    Toast.makeText(getReactApplicationContext(),"导入资源进数据库",Toast.LENGTH_LONG).show();
-                }
-                if (!dayClick.equals(recommendDayId)) {
-                    //不等于 ，说明是从属文件，从属文件与主文件的方法不一样
-                    //从属文件解析方法待写
-                    Toast.makeText(getReactApplicationContext(),"从属文件",Toast.LENGTH_LONG).show();
-                }
-                  //对主文件和从属文件解析方法不一样，但都需要对下载的文件相关信息进行保存
-                 Tb_file file = new Tb_file(titleID, dayClick, recommendDayId, fileName, filePath);
-                 ResourceDAO resourceDAO = new ResourceDAO(getReactApplicationContext());
-                 try {
-                      resourceDAO.insert(file);
-                      Toast.makeText(getReactApplicationContext(),"下载解析"+ fileName+"文件完成！",Toast.LENGTH_LONG).show();
-                     successCallback.invoke(fileName);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-            }
-        }catch (IllegalViewOperationException e) {
-            errorCallback.invoke(e.getMessage());
-        }
+
     }
 
    /*@ReactMethod
@@ -102,7 +69,7 @@ public class RNFileManager extends ReactContextBaseJavaModule {
             outputDir= ExternalStorage.getSDCacheDir(getReactApplicationContext(), "learn-resource");
             File zipFile = new File(zipDir.getPath() + "temp.zip");
             try {
-              //   DownloadFile.download(url, zipFile, zipDir);
+             DownloadFile.download(url, zipFile, zipDir);
                  unzipFile(zipFile, outputDir);//这方法没问题，问题就是对方传给我的包存在问题
                 return "success";
             } finally {

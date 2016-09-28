@@ -27,7 +27,7 @@ public class CandidateTestDaoImpl implements CandidateTestDao {
         db = dbOpenHelper.getWritableDatabase();
 
         ContentValues newValues = new ContentValues();
-        newValues.put("id", candidateTest.getId());
+      //  newValues.put("id", candidateTest.getId());
         newValues.put("userId", candidateTest.getUserId());
         newValues.put("testType", candidateTest.getTestType());
         newValues.put("testAspect", candidateTest.getTestAspect());
@@ -82,9 +82,13 @@ public class CandidateTestDaoImpl implements CandidateTestDao {
 
     //查找   这里返回的只有一个CandidateTest，所以不用CandidateTest[]
     public CandidateTest find(String userId, int testType, int testAspect, int testDifficulty) {
+        String type=testType+"";
+        String aspect=testAspect+"";
+        String difficult=testDifficulty+"";
         db = dbOpenHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM test_candidate where userId like ?",
-                new String[]{userId});
+        Cursor cursor = db.rawQuery("SELECT * FROM test_candidate where userId like ? and testType like ? and testAspect like ? and " +
+                "testDifficulty like ?",
+                new String[]{userId,type,aspect,difficult});
         if (cursor.moveToNext()) {
             CandidateTest candidateTest = new CandidateTest();
             candidateTest.setUserId(cursor.getString(cursor.getColumnIndex("userId")));

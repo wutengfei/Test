@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.peale_rn_1.dao.DBOpenHelper;
 import com.peale_rn_1.model.UserTest;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -26,17 +27,18 @@ public class UserTestDaoImpl implements UserTestDao {
     public List<UserTest> find(String userId, int flag) throws ParseException {
         db = dbOpenHelper.getWritableDatabase();
         if (flag == 0) {
-            Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTimes = 0", new String[]{userId});
+            Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTime = 0", new String[]{userId});
             return ConvertToUserTest(cursor);
         } else {
-            Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTimes = 1", new String[]{userId});
+            Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTime = 1", new String[]{userId});
             return ConvertToUserTest(cursor);
         }
     }
 
     private List<UserTest> ConvertToUserTest(Cursor cursor) throws ParseException {
         int resultCounts = cursor.getCount();
-        if (resultCounts == 0 || !cursor.moveToFirst()) return null;
+        if (resultCounts == 0 || !cursor.moveToFirst())
+            return null;
         UserTest[] userTest = new UserTest[resultCounts];
         for (int i = 0; i < resultCounts; i++) {
             userTest[i] = new UserTest();
@@ -51,12 +53,26 @@ public class UserTestDaoImpl implements UserTestDao {
             userTest[i].setTotalTimes(cursor.getInt(cursor.getColumnIndex("totalTime")));
 
             String startTime = cursor.getString(cursor.getColumnIndex("startTime"));
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//===========================保存的时间格式是什么
-            Date date = format.parse(startTime);
+
+
+          SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//===========================保存的时间格式是什么
+
+            Date date=null;
+            try {
+             date = format.parse(startTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             userTest[i].setStartTime(date);
 
             String endTime = cursor.getString(cursor.getColumnIndex("endTime"));
-            Date date2 = format.parse(endTime);
+            Date date2=null;
+            try {
+                date2 = format.parse(endTime);
+            }catch (ParseException e){
+                e.printStackTrace();
+            }
+
             userTest[i].setEndTime(date2);
 
             cursor.moveToNext();
@@ -70,7 +86,7 @@ public class UserTestDaoImpl implements UserTestDao {
         db = dbOpenHelper.getWritableDatabase();
 
         String sql = "insert into user_test (userId,word,testType,testAspect,testDifficulty,rightTimes,wrongTimes," +
-                "totalTimes,startTime,endTime) values (?,?,?,?,?,?,?,?,?,?)";
+                "totalTime,startTime,endTime) values (?,?,?,?,?,?,?,?,?,?)";
         db.execSQL(sql, new Object[]{userTest.getUserId(), userTest.getWord(), userTest.getTestType(), userTest.getTestAspect(),
                 userTest.getTestDifficulty(), userTest.getRightTimes(), userTest.getWrongTimes(), userTest.getTotalTimes(),
                 userTest.getStartTime(), userTest.getEndTime()});

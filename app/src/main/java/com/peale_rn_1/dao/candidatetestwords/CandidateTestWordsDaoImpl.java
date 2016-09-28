@@ -19,6 +19,17 @@ public class CandidateTestWordsDaoImpl implements CandidateTestWordsDao {
         dbOpenHelper = new DBOpenHelper(context);
     }
 
+    public CandidateTestWords[] find(String userId) {
+
+        db = dbOpenHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM test_candidateWords where userId like ?",
+                new String[]{userId});
+        CandidateTestWords[] ctw = ConvertToCandidateTestWords(cursor);
+        if (ctw != null && ctw.length > 0)
+            return ctw;
+        return null;
+    }
+
     @Override
     public CandidateTestWords find(String userId, int difficulty) {
         String difficult = difficulty + "";

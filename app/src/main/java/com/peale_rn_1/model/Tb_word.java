@@ -61,6 +61,10 @@ public class Tb_word {
 
     public Tb_word() {};
 
+    public Tb_word(String name) {
+        this.name = name;
+    }
+
     public Tb_word(String name, String proID, String proThemeNumber, String grade, String proTopic, String proClass, String proPartsOfSpeech, String proWordProperty, String proChinese, String proVersion, String proBook, String proDifficulty, String proAssociate, String proAntonym, String proSynonyms, String proExtend, String proNcyclopedia, String proUse, String proExpand, String proCommonUse, String proScene1, String proScene2, String proScene3, String proScene4, String proScene5, String proScene6, String pathScene1, String pathScene2, String pathScene3, String pathScene4, String pathScene5, String pathScene6, String proText1, String proText2, String proText3, String proText4, String proText5, String proText6, String pathText1, String pathText2, String pathText3, String pathText4, String pathText5, String pathText6, String pronunctionPath, String picturePath, String vedioPath1, String vedioPath2, String vedioPath3) {
         this.name = name;
         this.proID = proID;

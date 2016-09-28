@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.peale_rn_1.model.CandidateTestWords;
 import com.peale_rn_1.model.Tb_user;
 import com.peale_rn_1.model.Tb_word;
 
@@ -29,26 +30,26 @@ public class WordDAO {
         db = helper.getWritableDatabase();
         //49个属性
         try {
-            for(Tb_word word:words){
+            for (Tb_word word : words) {
                 db.execSQL("insert into word (" +
-                        "name,proID,proThemeNumber,grade,proTopic,proClass,proPartsOfSpeech,proWordProperty," +
-                        "proChinese,proVersion,proBook,proDifficulty,proAssociate,proAntonym,proSynonyms,proExtend," +
-                        "proNcyclopedia,proUse,proExpand,proCommonUse,proScene1,proScene2,proScene3,proScene4,proScene5," +
-                        "proScene6,pathScene1,pathScene2,pathScene3,pathScene4,pathScene5,pathScene6,proText1,proText2," +
-                        "proText3,proText4,proText5,proText6,pathText1,pathText2,pathText3,pathText4,pathText5,pathText6,"+
-                        "pronunctionPath,picturePath,vedioPath1,vedioPath2,vedioPath3) values (?,?,?,?,?,?,?,?," +
-                        "?,?,?,?,?,?,?,?," + "?,?,?,?,?,?,?,?,?," + "?,?,?,?,?,?,?,?,?," + "?,?,?,?,?,?,?,?,?,?,"+ "?,?,?,?,?)",
+                                "name,proID,proThemeNumber,grade,proTopic,proClass,proPartsOfSpeech,proWordProperty," +
+                                "proChinese,proVersion,proBook,proDifficulty,proAssociate,proAntonym,proSynonyms,proExtend," +
+                                "proNcyclopedia,proUse,proExpand,proCommonUse,proScene1,proScene2,proScene3,proScene4,proScene5," +
+                                "proScene6,pathScene1,pathScene2,pathScene3,pathScene4,pathScene5,pathScene6,proText1,proText2," +
+                                "proText3,proText4,proText5,proText6,pathText1,pathText2,pathText3,pathText4,pathText5,pathText6," +
+                                "pronunctionPath,picturePath,vedioPath1,vedioPath2,vedioPath3) values (?,?,?,?,?,?,?,?," +
+                                "?,?,?,?,?,?,?,?," + "?,?,?,?,?,?,?,?,?," + "?,?,?,?,?,?,?,?,?," + "?,?,?,?,?,?,?,?,?,?," + "?,?,?,?,?)",
                         new Object[]{
-                                    word.getName(), word.getProID(), word.getProThemeNumber(),word.getGrade(),word.getProTopic(), word.getProClass(),
-                                    word.getProPartsOfSpeech(), word.getProWordProperty(),word.getProChinese(),word.getProVersion(),word.getProBook(),
-                                    word.getProDifficulty(),word.getProAssociate(),word.getProAntonym(),word.getProSynonyms(),word.getProExtend(),
-                                    word.getProNcyclopedia(),word.getProUse(),word.getProExpand(), word.getProCommonUse(), word.getProScene1(),
-                                    word.getProScene2(), word.getProScene3(),word.getProScene4(), word.getProScene5(),word.getProScene6(),
-                                    word.getPathScene1(),word.getPathScene2(), word.getPathScene3(),word.getPathScene4(), word.getPathScene5(),
-                                    word.getPathScene6(),word.getProText1(),word.getProText2(), word.getProText3(),word.getProText4(), word.getProText5(),
-                                    word.getProText6(), word.getPathText1(),word.getPathText2(), word.getPathText3(),word.getPathText4(), word.getPathText5(),
-                                    word.getPathText6(), word.getPronunctionPath(),word.getPicturePath(), word.getVedioPath1(), word.getVedioPath2(),word.getVedioPath3(),
-                                    });
+                                word.getName(), word.getProID(), word.getProThemeNumber(), word.getGrade(), word.getProTopic(), word.getProClass(),
+                                word.getProPartsOfSpeech(), word.getProWordProperty(), word.getProChinese(), word.getProVersion(), word.getProBook(),
+                                word.getProDifficulty(), word.getProAssociate(), word.getProAntonym(), word.getProSynonyms(), word.getProExtend(),
+                                word.getProNcyclopedia(), word.getProUse(), word.getProExpand(), word.getProCommonUse(), word.getProScene1(),
+                                word.getProScene2(), word.getProScene3(), word.getProScene4(), word.getProScene5(), word.getProScene6(),
+                                word.getPathScene1(), word.getPathScene2(), word.getPathScene3(), word.getPathScene4(), word.getPathScene5(),
+                                word.getPathScene6(), word.getProText1(), word.getProText2(), word.getProText3(), word.getProText4(), word.getProText5(),
+                                word.getProText6(), word.getPathText1(), word.getPathText2(), word.getPathText3(), word.getPathText4(), word.getPathText5(),
+                                word.getPathText6(), word.getPronunctionPath(), word.getPicturePath(), word.getVedioPath1(), word.getVedioPath2(), word.getVedioPath3(),
+                        });
 
             }
             db.close();
@@ -60,11 +61,47 @@ public class WordDAO {
         return true;
     }
 
+    //查找  根据主题和年级查找单词
+    public Tb_word[] find(String proTopic,String grade){
+        db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT name FROM word WHERE proTopic like ? and grade like ?",new String[]{proTopic,grade});
+
+        int resultCounts = cursor.getCount();
+        if (resultCounts == 0 || !cursor.moveToFirst()) return null;
+        Tb_word[] tb_word = new Tb_word[resultCounts];
+        for (int i = 0; i < resultCounts; i++) {
+            tb_word[i] = new Tb_word();
+            tb_word[i].setName(cursor.getString(cursor.getColumnIndex("name")));
+            cursor.moveToNext();
+        }
+        db.close();
+        return tb_word;
+    }
+
+    //根据传过来的单词查询出年级和主题
+    public String[] find(String firstWord){
+        db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT proTopic, grade FROM word WHERE name like ?",new String[]{firstWord});
+        int resultCounts = cursor.getCount();
+        if (resultCounts == 0 || !cursor.moveToFirst()) return null;
+        Tb_word[] tb_word = new Tb_word[resultCounts];
+        for (int i = 0; i < resultCounts; i++) {
+            tb_word[i] = new Tb_word();
+            tb_word[i].setProTopic(cursor.getString(cursor.getColumnIndex("proTopic")));
+            tb_word[i].setGrade(cursor.getString(cursor.getColumnIndex("grade")));
+            cursor.moveToNext();
+        }
+        db.close();
+        String[] topicAndGrade =new String[]{tb_word[0].getProTopic(),  tb_word[0].getGrade()};
+        return topicAndGrade;
+    }
+
+
     public WritableMap findWordInfoByWordName(String newWord) {
         db = helper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from word where name = ?",
                 new String[]{newWord});
-        if(cursor.moveToNext()){
+        if (cursor.moveToNext()) {
             WritableMap map = Arguments.createMap();
           /*  map.putString("name", cursor.getString(cursor.getColumnIndex("name")));*/
             map.putString("proID", cursor.getString(cursor.getColumnIndex("proID")));
@@ -124,6 +161,7 @@ public class WordDAO {
 
     /**
      * 根据单词找到其图片路径以及发音路径
+     *
      * @param word
      * @return
      */
@@ -131,10 +169,10 @@ public class WordDAO {
         db = helper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select pronunctionPath,picturePath from word where name = ?",
                 new String[]{word});
-        if(cursor.moveToNext()){
+        if (cursor.moveToNext()) {
             WritableMap map = Arguments.createMap();
-            map.putString("pronunctionPath",cursor.getString(cursor.getColumnIndex("pronunctionPath")));
-            map.putString("picturePath",cursor.getString(cursor.getColumnIndex("picturePath")));
+            map.putString("pronunctionPath", cursor.getString(cursor.getColumnIndex("pronunctionPath")));
+            map.putString("picturePath", cursor.getString(cursor.getColumnIndex("picturePath")));
             return map;
         }
         db.close();

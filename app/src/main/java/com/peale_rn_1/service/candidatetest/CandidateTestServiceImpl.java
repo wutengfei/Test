@@ -4,6 +4,7 @@ package com.peale_rn_1.service.candidatetest;
 import com.peale_rn_1.MainApplication;
 import com.peale_rn_1.dao.candidatetest.CandidateTestDaoImpl;
 import com.peale_rn_1.model.CandidateTest;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class CandidateTestServiceImpl implements CandidateTestService {
         queryParams[1] = difficulty;
         queryParams[2] = 1;
 
-        CandidateTest[] ctlist = candidateTestDao.getAllData( queryParams);
+        CandidateTest[] ctlist = candidateTestDao.getAllData(queryParams);
         if (ctlist == null)
             return 0;
         return ctlist.length;
@@ -28,7 +29,7 @@ public class CandidateTestServiceImpl implements CandidateTestService {
 
     @Override
     public void AddCandidateTest(String userId, int testType, int testAspect, int testDifficulty, int candidate) {
-        // TODO Auto-generated method stub
+
         CandidateTest ct = candidateTestDao.find(userId, testType, testAspect, testDifficulty);
         if (ct == null) {
             CandidateTest newct = new CandidateTest(userId, testType, testAspect, testDifficulty, 0, 0, 0, candidate);
@@ -202,11 +203,12 @@ public class CandidateTestServiceImpl implements CandidateTestService {
     @Override
     public void AddBatchCandidateTest(String userId) {
         // TODO Auto-generated method stub
-        this.AddCandidateTest(userId, 1, 1, 2, 1);
-        this.AddCandidateTest(userId, 2, 3, 2, 1);
-        this.AddCandidateTest(userId, 4, 3, 2, 1);
-        this.AddCandidateTest(userId, 1, 3, 2, 1);
-        this.AddCandidateTest(userId, 4, 4, 2, 1);
+           AddCandidateTest(userId, 1, 1, 2, 1);
+           AddCandidateTest(userId, 2, 3, 2, 1);
+           AddCandidateTest(userId, 4, 3, 2, 1);
+           AddCandidateTest(userId, 1, 3, 2, 1);
+           AddCandidateTest(userId, 4, 4, 2, 1);
+
     }
 
 }
