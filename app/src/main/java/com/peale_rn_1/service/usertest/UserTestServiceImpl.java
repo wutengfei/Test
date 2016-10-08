@@ -14,6 +14,7 @@ import com.peale_rn_1.service.testpreference.TestPreferenceServiceImpl;
 import com.peale_rn_1.service.wordservice.WordService;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -112,43 +113,63 @@ public class UserTestServiceImpl implements UserTestService {
 
 //从候选测试单词表中取出两个单词，若没有就从当前day中随机取两个，并保证主题和年级要和前面的两个单词一致
             CandidateTestWords[] candidateTestWords = candidateTestWordsDao.find(userId);
-            WordService wordService=new WordService();
+            WordService wordService = new WordService();
             CandidateTestWords nextTwoWords[] = new CandidateTestWords[2];
-            String nextTwoWord[]=new String[2];
-            String firstWord=fourGroup[0][0]+"";
-            String[] topicAndGrade = wordService.find(firstWord);////根据传过来的单词查询出年级和主题
-            Tb_word[] wordOfDay=wordService.find(topicAndGrade[0],topicAndGrade[1]);//根据主题和年级查找与单词同主题和年级下的单词
 
-            //得到候选测试单词数组中的两个单词
+            String firstWord = fourGroup[0][0] + "";
+            String[] topicAndGrade = wordService.find(firstWord);//根据传过来的单词查询出年级和主题
+            Tb_word[] wordOfDay = wordService.find(topicAndGrade[0], topicAndGrade[1]);//根据主题和年级查找与该单词同主题和年级下的单词
+
+
+            String[] nextTwoWord = new String[2];
+
+            System.out.println("day中选的单词数为"+wordOfDay.length);
+            //得到后两个单词
             if (candidateTestWords == null) {//在day中取两个单词
-                for (int k = 0; k < 2; k++) {
-                    int wordOfDayCount = new Random().nextInt(wordOfDay.length);//产生一个0-wordOfDay之间的随机数
-                    nextTwoWord[k] = wordOfDay[wordOfDayCount].getName();
+
+                int n = 0;
+                for (i = 0; i < wordOfDay.length; i++) {//存入后两个单词
+                    int random =(int)(Math.random()*wordOfDay.length);
+                    if (wordOfDay[random] != fourGroup[0][0] && wordOfDay[random] != fourGroup[1][0]) {
+                        nextTwoWord[n++] = wordOfDay[random].getName();
+                        if (n == 2) break;
+                    }
                 }
-                for (i = 2; i < 4; i++) {//存入后两个单词
-                    fourGroup[i][0] = nextTwoWord[i];
+                for(i=2;i<4;i++){
+                    fourGroup[i][0]=nextTwoWord[i-2];
                 }
             } else if (candidateTestWords.length == 1) {
-                fourGroup[2][0]= candidateTestWords[0].getWord();//把第三道题的单词存入fourGroup
-                int wordOfDayCount = new Random().nextInt(wordOfDay.length);
-                nextTwoWord[0] = wordOfDay[wordOfDayCount].getName();
-                fourGroup[3][0] = nextTwoWord[0];//第四道在day中取
+                fourGroup[2][0] = candidateTestWords[0].getWord();//把第三道题的单词存入fourGroup
+                for (i = 0; i < wordOfDay.length; i++) {//存入最后一个单词
+                    int random =(int)(Math.random()*wordOfDay.length);//产生一个[0,wordOfDay.length)之间的随机数
+                    if (wordOfDay[random] != fourGroup[0][0] && wordOfDay[random] != fourGroup[1][0]&&wordOfDay[random]!=fourGroup[2][0]) {
+                        nextTwoWord[0] = wordOfDay[random].getName();break;
+                    }
+                }
+                fourGroup[3][0] = nextTwoWord[0];//把从day中取的题存入第四道
             } else if (candidateTestWords.length >= 2) {//在候选测试单词表中取两个单词
                 for (int k = 0; k < 2; k++) {
                     int candidateTestWordCount = new Random().nextInt(candidateTestWords.length);
                     nextTwoWords[k] = candidateTestWords[candidateTestWordCount];
                 }
                 for (i = 2; i < 4; i++) {//存入后两个单词
-                    fourGroup[i][0] = nextTwoWords[i].getWord();
+                    fourGroup[i][0] = nextTwoWords[i - 2].getWord();
                 }
             }
+
+            for (i = 0; i < 4; i++) {
+                System.out.println("生成的四个单词是" + fourGroup[i][0]);
+            }
+
+            Date date=new Date();
 
             //写入用户测试表中
             for (i = 0; i < 4; i++) {
                 UserTest userTest = new UserTest(userId, (String) fourGroup[i][0], (int) fourGroup[i][1],
-                        (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, new Date(), null);
+                        (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, new Date(), new Date());
                 userTestDao.save(userTest);
             }
+            System.out.println("------------" +date+"--"+ new Date());
             List<UserTest> utlist = userTestDao.find(userId, 0);
             userTestDao.delete(utlist.get(utlist.size() - 4).getId());  //返回一道题目就删掉出题记录。
             return utlist.get(0);//上面只删除数据库中的一条，但表中仍是size为4.

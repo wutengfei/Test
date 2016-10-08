@@ -23,6 +23,13 @@ public class UserTest {
     public UserTest() {
     }
 
+    public UserTest(String userId, int testType, int testAspect, int testDifficulty) {
+        this.userId = userId;
+        this.testType = testType;
+        this.testAspect = testAspect;
+        this.testDifficulty = testDifficulty;
+    }
+
     public UserTest(String userId, String word, int testType, int testAspect, int testDifficulty, int rightTimes,
                     int wrongTimes, int totalTimes, Date startTime, Date endTime) {
         this.userId = userId;

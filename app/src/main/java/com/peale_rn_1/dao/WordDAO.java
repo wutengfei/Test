@@ -4,13 +4,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import android.widget.Toast;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.peale_rn_1.MainApplication;
 import com.peale_rn_1.model.CandidateTestWords;
 import com.peale_rn_1.model.Tb_user;
 import com.peale_rn_1.model.Tb_word;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Administrator on 2016/9/7.
@@ -62,11 +65,21 @@ public class WordDAO {
     }
 
     //查找  根据主题和年级查找单词
-    public Tb_word[] find(String proTopic,String grade){
+    public Tb_word[] find(String proTopic, String grade) {
         db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT name FROM word WHERE proTopic like ? and grade like ?",new String[]{proTopic,grade});
+        Cursor cursor;
+        if (proTopic == null) {
+            cursor = db.rawQuery("SELECT name FROM word WHERE  grade like ?", new String[]{grade});//根据年级查找单词
+        }
+        else {
+            cursor = db.rawQuery("SELECT name FROM word WHERE proTopic like ? and grade like ?", new String[]{proTopic, grade});
+        }
 
         int resultCounts = cursor.getCount();
+        if (resultCounts < 4) {
+            cursor = db.rawQuery("SELECT name FROM word WHERE  grade like ?", new String[]{grade});
+             resultCounts = cursor.getCount();
+        }
         if (resultCounts == 0 || !cursor.moveToFirst()) return null;
         Tb_word[] tb_word = new Tb_word[resultCounts];
         for (int i = 0; i < resultCounts; i++) {
@@ -79,9 +92,9 @@ public class WordDAO {
     }
 
     //根据传过来的单词查询出年级和主题
-    public String[] find(String firstWord){
+    public String[] find(String firstWord) {
         db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT proTopic, grade FROM word WHERE name like ?",new String[]{firstWord});
+        Cursor cursor = db.rawQuery("SELECT proTopic, grade FROM word WHERE name like ?", new String[]{firstWord});
         int resultCounts = cursor.getCount();
         if (resultCounts == 0 || !cursor.moveToFirst()) return null;
         Tb_word[] tb_word = new Tb_word[resultCounts];
@@ -92,10 +105,51 @@ public class WordDAO {
             cursor.moveToNext();
         }
         db.close();
-        String[] topicAndGrade =new String[]{tb_word[0].getProTopic(),  tb_word[0].getGrade()};
+        String[] topicAndGrade = new String[]{tb_word[0].getProTopic(), tb_word[0].getGrade()};
         return topicAndGrade;
     }
 
+    //根据单词查询其图片，音频，课文原句
+    public String[] search(String word) {
+        db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT picturePath, pronunctionPath, proText4 FROM word WHERE name like ?", new String[]{word});
+        int resultCounts = cursor.getCount();
+        if (resultCounts == 0 || !cursor.moveToFirst()) return null;
+        Tb_word tb_word = new Tb_word();
+
+        tb_word.setPicturePath(cursor.getString(cursor.getColumnIndex("picturePath")));
+        tb_word.setPronunctionPath(cursor.getString(cursor.getColumnIndex("pronunctionPath")));
+        tb_word.setProText4(cursor.getString(cursor.getColumnIndex("proText4")));
+        cursor.moveToNext();
+
+        db.close();
+        String[] resource = new String[]{tb_word.getPicturePath(), tb_word.getPronunctionPath(), tb_word.getProText4()};
+        return resource;
+    }
+
+    //选出两个错误选项的单词和图片
+    public String[] search() {
+        db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT name, picturePath FROM word", null);
+        int resultCounts = cursor.getCount();
+        if (resultCounts == 0 || !cursor.moveToFirst()) return null;
+        Tb_word[] tb_word = new Tb_word[resultCounts];
+        for (int i = 0; i < resultCounts; i++) {
+            tb_word[i] = new Tb_word();
+            tb_word[i].setName(cursor.getString(cursor.getColumnIndex("name")));
+            tb_word[i].setPicturePath(cursor.getString(cursor.getColumnIndex("picturePath")));
+            cursor.moveToNext();
+        }
+        db.close();
+        //随机选取两个单词作为干扰项
+        int a = new Random().nextInt(tb_word.length);
+        Tb_word s = tb_word[a];
+        int b = new Random().nextInt(tb_word.length);
+        Tb_word t = tb_word[b];
+
+        String[] resource = new String[]{s.getName(), s.getPicturePath(), t.getName(), t.getPicturePath()};
+        return resource;
+    }
 
     public WritableMap findWordInfoByWordName(String newWord) {
         db = helper.getWritableDatabase();
