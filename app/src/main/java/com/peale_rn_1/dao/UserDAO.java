@@ -60,10 +60,10 @@ public class UserDAO {
             wrongTimes_old = cursors.getInt(cursors.getColumnIndex("wrongTimes"));
         }
         if (rightTimes!=0) {
-            db.execSQL("UPDATE user SET token = ? WHERE userId = ?", new Object[]{token_old + tokens, userId});//金币数+1
-            db.execSQL("UPDATE user_test SET rightTimes = ? WHERE userId = ?", new Object[]{rightTimes_old + rightTimes, userId});//正确次数+1
+            db.execSQL("UPDATE user SET token = ? WHERE userId = ?", new Object[]{token_old + tokens, userId});//原来的金币数+新得金币
+            db.execSQL("UPDATE user_test SET rightTimes = ? WHERE userId = ?", new Object[]{rightTimes_old + rightTimes, userId});//更新正确次数
         }else {
-            db.execSQL("UPDATE user_test SET wrongTimes = ? WHERE userId = ?", new Object[]{wrongTimes_old + wrongTimes, userId});//错误次数+1
+            db.execSQL("UPDATE user_test SET wrongTimes = ? WHERE userId = ?", new Object[]{wrongTimes_old + wrongTimes, userId});//更新错误次数
         }
     }
 }
