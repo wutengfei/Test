@@ -70,15 +70,14 @@ public class WordDAO {
         Cursor cursor;
         if (proTopic == null) {
             cursor = db.rawQuery("SELECT name FROM word WHERE  grade like ?", new String[]{grade});//根据年级查找单词
-        }
-        else {
+        } else {
             cursor = db.rawQuery("SELECT name FROM word WHERE proTopic like ? and grade like ?", new String[]{proTopic, grade});
         }
 
         int resultCounts = cursor.getCount();
         if (resultCounts < 4) {
             cursor = db.rawQuery("SELECT name FROM word WHERE  grade like ?", new String[]{grade});
-             resultCounts = cursor.getCount();
+            resultCounts = cursor.getCount();
         }
         if (resultCounts == 0 || !cursor.moveToFirst()) return null;
         Tb_word[] tb_word = new Tb_word[resultCounts];
@@ -149,6 +148,18 @@ public class WordDAO {
 
         String[] resource = new String[]{s.getName(), s.getPicturePath(), t.getName(), t.getPicturePath()};
         return resource;
+    }
+
+    public String searchPath() {
+        db = helper.getWritableDatabase();
+        String fileName = "2-17-4-4";
+        String pathPrefix = "";
+        Cursor cursor = db.rawQuery("SELECT filePath FROM file WHERE fileName like ?", new String[]{fileName});
+        if (cursor.moveToNext()) {
+            pathPrefix = cursor.getString(cursor.getColumnIndex("filePath"));
+        }
+        db.close();
+        return pathPrefix;
     }
 
     public WritableMap findWordInfoByWordName(String newWord) {

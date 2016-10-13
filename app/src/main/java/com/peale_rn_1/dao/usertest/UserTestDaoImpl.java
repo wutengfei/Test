@@ -53,7 +53,7 @@ public class UserTestDaoImpl implements UserTestDao {
             userTest[i].setTotalTimes(cursor.getInt(cursor.getColumnIndex("totalTime")));
 
             String startTime = cursor.getString(cursor.getColumnIndex("startTime"));
-            System.out.println("---------"+startTime);
+          //  System.out.println("startTime---------"+startTime);
           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             Date date=null;
@@ -65,7 +65,7 @@ public class UserTestDaoImpl implements UserTestDao {
             userTest[i].setStartTime(date);
 
             String endTime = cursor.getString(cursor.getColumnIndex("endTime"));
-            System.out.println("---------"+endTime);
+         //   System.out.println("endTime---------"+endTime);
             Date date2=null;
             try {
                 date2 = format.parse(endTime);

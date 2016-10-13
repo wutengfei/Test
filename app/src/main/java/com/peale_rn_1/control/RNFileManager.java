@@ -9,11 +9,13 @@ import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import com.facebook.react.uimanager.IllegalViewOperationException;
+import com.peale_rn_1.MainApplication;
 import com.peale_rn_1.dao.ResourceDAO;
 import com.peale_rn_1.dao.WordDAO;
 import com.peale_rn_1.model.Tb_file;
@@ -26,7 +28,7 @@ import com.peale_rn_1.util.*;
 public class RNFileManager extends ReactContextBaseJavaModule {
     protected ProgressDialog mProgressDialog;
     File zipDir;
-    File outputDir= ExternalStorage.getSDCacheDir(getReactApplicationContext(), "learn-resource");
+    File outputDir = ExternalStorage.getSDCacheDir(getReactApplicationContext(), "learn-resource");
 
 
     public RNFileManager(ReactApplicationContext reactContext) {
@@ -38,14 +40,14 @@ public class RNFileManager extends ReactContextBaseJavaModule {
         return "ZipFileManage";
     }
 
-   @ReactMethod
-  //  public void startDownload(String url,String titleID,String dayClick,String recommendDayId,String fileName,Callback successCallback, Callback errorCallback) {
-   public void startDownload(String url) {
+    @ReactMethod
+    //  public void startDownload(String url,String titleID,String dayClick,String recommendDayId,String fileName,Callback successCallback, Callback errorCallback) {
+    public void startDownload(String url) {
 
-            Toast.makeText(getReactApplicationContext(), "开始下载资源，请耐心等待！", Toast.LENGTH_LONG).show();
-            //这里提供下载
+        Toast.makeText(MainApplication.getContext(), "开始下载资源，请耐心等待！", Toast.LENGTH_LONG).show();
+        //这里提供下载
         String string = new DownloadTask().downloadAllAssets(url); //主要为了测试解析
-            //这里需要周亮提供给我的文件名称
+        //这里需要周亮提供给我的文件名称
 
     }
 
@@ -63,28 +65,29 @@ public class RNFileManager extends ReactContextBaseJavaModule {
       *  Download .zip file specified by url ,then uizp it to a folder in external storage.
       * */
         // private String downloadAllAssets(String url) {
-        private String downloadAllAssets(String url){
-            System.out.print("测试解析方法"+ url);
+        private String downloadAllAssets(String url) {
+            System.out.print("测试解析方法" + url);
             zipDir = ExternalStorage.getSDCacheDir(getReactApplicationContext(), "temp");
-            outputDir= ExternalStorage.getSDCacheDir(getReactApplicationContext(), "learn-resource");
+            outputDir = ExternalStorage.getSDCacheDir(getReactApplicationContext(), "learn-resource");
             File zipFile = new File(zipDir.getPath() + "temp.zip");
             try {
-             DownloadFile.download(url, zipFile, zipDir);
-                 unzipFile(zipFile, outputDir);//这方法没问题，问题就是对方传给我的包存在问题
+                DownloadFile.download(url, zipFile, zipDir);
+                unzipFile(zipFile, outputDir);//这方法没问题，问题就是对方传给我的包存在问题
                 return "success";
             } finally {
                 //删除文件
             }
         }
-    /*
-    * 解压缩文件
-    * */
+
+        /*
+        * 解压缩文件
+        * */
         protected void unzipFile(File zipFile, File destination) {
 
             //测试方法1
             ZIP zip = new ZIP();
             try {
-                zip.UnZipFolder(zipFile.getPath(),destination.getPath());
+                zip.UnZipFolder(zipFile.getPath(), destination.getPath());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -101,7 +104,7 @@ public class RNFileManager extends ReactContextBaseJavaModule {
         protected Exception doInBackground(String... params) {
             String url = (String) params[0];
             try {
-             //   downloadAllAssets(url);
+                //   downloadAllAssets(url);
             } catch (Exception e) {
                 return e;
             }
@@ -118,5 +121,5 @@ public class RNFileManager extends ReactContextBaseJavaModule {
             Toast.makeText(getReactApplicationContext(), result.getLocalizedMessage(), Toast.LENGTH_LONG);
         }
     }
-    }
+}
 

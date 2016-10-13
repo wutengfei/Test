@@ -1,8 +1,7 @@
 package com.peale_rn_1.control;
 
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
+import com.facebook.imagepipeline.producers.NetworkFetcher;
+import com.facebook.react.bridge.*;
 import com.peale_rn_1.MainApplication;
 import com.peale_rn_1.dao.UserDAO;
 import com.peale_rn_1.model.UserTest;
@@ -36,7 +35,7 @@ public class RNTestManager extends ReactContextBaseJavaModule {
      * @throws ParseException
      */
     @ReactMethod
-    public UserTest listTestWordAttribute(String userId, int index) throws ParseException {
+    public void listTestWordAttribute(String userId, int index, Callback successCallback) throws ParseException {
 
         UserTestServiceImpl userTestService = new UserTestServiceImpl();
         String[] words = {"map", "river", "way", "trip", "round"};
@@ -45,8 +44,14 @@ public class RNTestManager extends ReactContextBaseJavaModule {
         int type = userTest.getTestType();
         int aspect = userTest.getTestAspect();
         int difficulty = userTest.getTestDifficulty();
-        UserTest ut = new UserTest(id, type, aspect, difficulty);
-        return ut;
+        // UserTest ut = new UserTest(id, type, aspect, difficulty);
+        WritableArray writableArray = Arguments.createArray();
+        writableArray.pushString(id);
+        writableArray.pushInt(type);
+        writableArray.pushInt(aspect);
+        writableArray.pushInt(difficulty);
+        successCallback.invoke(writableArray);
+
     }
 
     /**
@@ -56,9 +61,10 @@ public class RNTestManager extends ReactContextBaseJavaModule {
      * @return 该单词的图片资源，以及两个干扰选项及其图片资源，以及该单词的音频资源
      */
     @ReactMethod
-    public String[] listWordResource(String content) {
+    public void listWordResource(String content, Callback successCallback) {
         WordService wordService = new WordService();
-        return wordService.search(content);
+        WritableArray writableArray = wordService.search(content);
+        successCallback.invoke(writableArray);
     }
 
     /**
@@ -66,11 +72,17 @@ public class RNTestManager extends ReactContextBaseJavaModule {
      * 在用户信息表中金币数加上此关获得的金币数，rightTimes+1,若回答错误wrongTimes+1
      *
      * @param userId
-     * @param isTrue 是否回答正确
+     * @param rightTimes 回答正确次数
+     * @param wrongTimes 回答错误次数
+     * @param token      金币数
      */
     @ReactMethod
-    public void saveMiddleTest(String userId, boolean isTrue) {
+    public void saveMiddleTest(String userId, int rightTimes, int wrongTimes, int token) {
         UserDAO userDAO = new UserDAO(MainApplication.getContext());
-        userDAO.isAnswerRight(userId, isTrue);
+        System.out.println("正确次数-------" + rightTimes);
+        System.out.println("错误次数-------" + wrongTimes);
+        System.out.println("获得金币数-------" + token);
+        userDAO.isAnswerRight(userId, rightTimes,wrongTimes,token);
+
     }
 }

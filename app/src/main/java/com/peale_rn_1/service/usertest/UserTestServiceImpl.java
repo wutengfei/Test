@@ -169,7 +169,7 @@ public class UserTestServiceImpl implements UserTestService {
                         (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, new Date(), new Date());
                 userTestDao.save(userTest);
             }
-            System.out.println("------------" +date+"--"+ new Date());
+            System.out.println("startDate++++++" +date+"endDate+++++"+ new Date());
             List<UserTest> utlist = userTestDao.find(userId, 0);
             userTestDao.delete(utlist.get(utlist.size() - 4).getId());  //返回一道题目就删掉出题记录。
             return utlist.get(0);//上面只删除数据库中的一条，但表中仍是size为4.

@@ -43,27 +43,27 @@ public class UserDAO {
         return null;
     }
 
-    public void isAnswerRight(String userId, boolean isTrue) {
-        int token = 0, rightTimes = 0, wrongTimes = 0;
+    public void isAnswerRight(String userId, int rightTimes,int wrongTimes,int tokens) {
+        int token_old = 0, rightTimes_old = 0, wrongTimes_old = 0;
         db = helper.getWritableDatabase();
         //得到原来的金币数
         Cursor cursor = db.rawQuery("select token from user where userId = ?",
                 new String[]{userId});
         if (cursor.moveToNext()) {
-            token = cursor.getInt(cursor.getColumnIndex("token"));
+            token_old = cursor.getInt(cursor.getColumnIndex("token"));
         }
         //得到原来的正确和错误次数
         Cursor cursors = db.rawQuery("select rightTimes, wrongTimes from user_test where userId = ?",
                 new String[]{userId});
         if (cursor.moveToNext()) {
-            rightTimes = cursors.getInt(cursors.getColumnIndex("rightTimes"));
-            wrongTimes = cursors.getInt(cursors.getColumnIndex("wrongTimes"));
+            rightTimes_old = cursors.getInt(cursors.getColumnIndex("rightTimes"));
+            wrongTimes_old = cursors.getInt(cursors.getColumnIndex("wrongTimes"));
         }
-        if (isTrue) {
-            db.execSQL("UPDATE user SET token = ? WHERE userId = ?", new Object[]{token + 1, userId});//金币数+1
-            db.execSQL("UPDATE user_test SET rightTimes = ? WHERE userId = ?", new Object[]{rightTimes + 1, userId});//正确次数+1
+        if (rightTimes!=0) {
+            db.execSQL("UPDATE user SET token = ? WHERE userId = ?", new Object[]{token_old + tokens, userId});//金币数+1
+            db.execSQL("UPDATE user_test SET rightTimes = ? WHERE userId = ?", new Object[]{rightTimes_old + rightTimes, userId});//正确次数+1
         }else {
-            db.execSQL("UPDATE user_test SET wrongTimes = ? WHERE userId = ?", new Object[]{wrongTimes + 1, userId});//错误次数+1
+            db.execSQL("UPDATE user_test SET wrongTimes = ? WHERE userId = ?", new Object[]{wrongTimes_old + wrongTimes, userId});//错误次数+1
         }
     }
 }
