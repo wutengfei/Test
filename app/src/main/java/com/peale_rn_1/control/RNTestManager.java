@@ -4,12 +4,14 @@ import com.facebook.imagepipeline.producers.NetworkFetcher;
 import com.facebook.react.bridge.*;
 import com.peale_rn_1.MainApplication;
 import com.peale_rn_1.dao.UserDAO;
+import com.peale_rn_1.dao.usertest.UserTestDaoImpl;
 import com.peale_rn_1.model.UserTest;
 import com.peale_rn_1.service.usertest.UserTestServiceImpl;
 import com.peale_rn_1.service.wordservice.WordService;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Fly Wu on 2016/9/18.
@@ -51,7 +53,6 @@ public class RNTestManager extends ReactContextBaseJavaModule {
         writableArray.pushInt(aspect);
         writableArray.pushInt(difficulty);
         successCallback.invoke(writableArray);
-
     }
 
     /**
@@ -77,12 +78,24 @@ public class RNTestManager extends ReactContextBaseJavaModule {
      * @param token      金币数
      */
     @ReactMethod
-    public void saveMiddleTest(String userId, int rightTimes, int wrongTimes, int token) {
+    public void saveMiddleTest(String userId, String word, int rightTimes, int wrongTimes, int token) throws ParseException {
         UserDAO userDAO = new UserDAO(MainApplication.getContext());
         System.out.println("正确次数-------" + rightTimes);
         System.out.println("错误次数-------" + wrongTimes);
         System.out.println("获得金币数-------" + token);
-        userDAO.isAnswerRight(userId, rightTimes,wrongTimes,token);
+        userDAO.isAnswerRight(userId, rightTimes, wrongTimes, token);
+        //答题之后将UserTest类型的实体类传递给addUserTest
+        UserTestServiceImpl userTestService = new UserTestServiceImpl();
+        UserTestDaoImpl userTestDao = new UserTestDaoImpl(MainApplication.getContext());
+        List<UserTest> list = userTestDao.find(userId, word);
+        int testType = list.get(0).getTestType();
+        int testAspect = list.get(0).getTestAspect();
+        int testDifficult = list.get(0).getTestDifficulty();
+        int totalTimes = list.get(0).getTotalTimes();
+        Date startTime = list.get(0).getStartTime();
+        Date endTime = list.get(0).getEndTime();
+        userTestService.addUserTest(userId, word, testType, testAspect, testDifficult, rightTimes, wrongTimes, totalTimes, startTime, endTime);
+
 
     }
 }

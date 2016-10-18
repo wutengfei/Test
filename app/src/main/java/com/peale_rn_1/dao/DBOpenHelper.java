@@ -165,7 +165,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     //用户信息表
     private static final String TABLE_CREATE_USER = "create table " +
             DB_TABLE_USER + " (" + KEY_id + " integer primary key autoincrement," +
-            KEY_userId + " varchar(10)," + KEY_system + " int(2)," + KEY_userName + " varchar(16)," +
+            KEY_userId + " varchar(10)," +KEY_system + " int(2)," + KEY_userName + " varchar(16)," +
             KEY_passWord + " varchar(20)," + KEY_realName + " varchar(10)," + KEY_sex + " int(2)," +
             KEY_school + " varchar(10)," + KEY_grade + " int(2)," + KEY_classNum + " int(2)," +
             KEY_birthYear + " int(4)," + KEY_beforeLevel + " int(2)," + KEY_EnglishScore + " double(2)," +
@@ -225,7 +225,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     //资源单词表，主题下的day
     private static final String TABLE_CREATE_WORD = "create table " + DB_TABLE_WORD +
             " (" + KEY_name + " primary key," + KEY_proID + " varchar(20)," + KEY_proTopic + " varchar(30),"
-            + KEY_proClass + " varchar(20)," + KEY_proPartsOfSpeech + " varchar(5)," + KEY_proWordProperty + " varchar(10),"
+            + KEY_proClass + " varchar(20)," +KEY_grade+" varchar(10),"+ KEY_proPartsOfSpeech + " varchar(5)," + KEY_proWordProperty + " varchar(10),"
             + KEY_proChinese + " varchar(20)," + KEY_proVersion + " varchar(5)," + KEY_proBook + " varchar(5),"
             + KEY_proDifficulty + " varchar(2)," + KEY_proNcyclopedia + " varchar(100)," + KEY_proUse + " varchar(30),"
             + KEY_proAssociate + " varchar(30)," + KEY_proAntonym + " varchar(20)," + KEY_proSynonyms + " varchar(20),"

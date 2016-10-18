@@ -22,7 +22,7 @@ public class UserTestDaoImpl implements UserTestDao {
         dbOpenHelper = new DBOpenHelper(context);
     }
 
-    //查找
+    //查找通过userId，flag
     @Override
     public List<UserTest> find(String userId, int flag) throws ParseException {
         db = dbOpenHelper.getWritableDatabase();
@@ -33,6 +33,13 @@ public class UserTestDaoImpl implements UserTestDao {
             Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTime = 1", new String[]{userId});
             return ConvertToUserTest(cursor);
         }
+    }
+
+    //查找,通过userId,word
+    public List<UserTest> find(String userId, String word) throws ParseException {
+        db = dbOpenHelper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and word like ?", new String[]{userId, word});
+        return ConvertToUserTest(cursor);
     }
 
     private List<UserTest> ConvertToUserTest(Cursor cursor) throws ParseException {
@@ -53,23 +60,23 @@ public class UserTestDaoImpl implements UserTestDao {
             userTest[i].setTotalTimes(cursor.getInt(cursor.getColumnIndex("totalTime")));
 
             String startTime = cursor.getString(cursor.getColumnIndex("startTime"));
-          //  System.out.println("startTime---------"+startTime);
-          SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            // System.out.println("startTime---------" + startTime);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            Date date=null;
+            Date date = null;
             try {
-             date = format.parse(startTime);
+                date = format.parse(startTime);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             userTest[i].setStartTime(date);
 
             String endTime = cursor.getString(cursor.getColumnIndex("endTime"));
-         //   System.out.println("endTime---------"+endTime);
-            Date date2=null;
+            //  System.out.println("endTime---------" + endTime);
+            Date date2 = null;
             try {
                 date2 = format.parse(endTime);
-            }catch (ParseException e){
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
 
@@ -92,6 +99,19 @@ public class UserTestDaoImpl implements UserTestDao {
                 userTest.getStartTime(), userTest.getEndTime()});
         db.close();
     }
+
+    //保存
+    public void update(UserTest userTest) {
+        db = dbOpenHelper.getWritableDatabase();
+
+        String sql = "UPDATE user_test set testType = ?,testAspect=?,testDifficulty=?,rightTimes=?,wrongTimes=?," +
+                "totalTime=?,startTime=?,endTime=? WHERE userId like ? and word like ?";
+        db.execSQL(sql, new Object[]{userTest.getTestType(), userTest.getTestAspect(),
+                userTest.getTestDifficulty(), userTest.getRightTimes(), userTest.getWrongTimes(), userTest.getTotalTimes(),
+                userTest.getStartTime(), userTest.getEndTime(), userTest.getUserId(), userTest.getWord()});
+        db.close();
+    }
+
 //删除
 
     public void delete(int id) {

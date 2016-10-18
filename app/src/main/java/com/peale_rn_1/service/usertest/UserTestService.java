@@ -26,7 +26,7 @@ public interface UserTestService {
 	 * @param startTime
 	 * @param endTime
 	 */
-    public void addUserTest1(String userId, String word, int testType, int testAspect, int testDifficulty,
+    public void addUserTest(String userId, String word, int testType, int testAspect, int testDifficulty,
 							 int rightTimes, int wrongTimes, int totalTimes, Date startTime, Date endTime);
     
     /**

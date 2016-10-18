@@ -49,8 +49,9 @@ public class CandidateTestDaoImpl implements CandidateTestDao {
         newValues.put("testType", candidateTest.getTestType());
         newValues.put("testAspect", candidateTest.getTestAspect());
         newValues.put("testDifficulty", candidateTest.getTestDifficulty());
-        db.close();
+
         db.update("test_candidate", newValues, null, null);
+        db.close();
     }
 
     @Override

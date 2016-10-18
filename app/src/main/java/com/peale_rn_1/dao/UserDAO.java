@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.peale_rn_1.model.Tb_user;
+import com.peale_rn_1.service.usertest.UserTestServiceImpl;
 
 /**
  * Created by Administrator on 2016/9/2.
@@ -59,11 +60,13 @@ public class UserDAO {
             rightTimes_old = cursors.getInt(cursors.getColumnIndex("rightTimes"));
             wrongTimes_old = cursors.getInt(cursors.getColumnIndex("wrongTimes"));
         }
-        if (rightTimes!=0) {
+        if (rightTimes!=0) {//回答正确时
             db.execSQL("UPDATE user SET token = ? WHERE userId = ?", new Object[]{token_old + tokens, userId});//原来的金币数+新得金币
             db.execSQL("UPDATE user_test SET rightTimes = ? WHERE userId = ?", new Object[]{rightTimes_old + rightTimes, userId});//更新正确次数
-        }else {
+        }else {//回答错误时
             db.execSQL("UPDATE user_test SET wrongTimes = ? WHERE userId = ?", new Object[]{wrongTimes_old + wrongTimes, userId});//更新错误次数
+
         }
+        db.close();
     }
 }

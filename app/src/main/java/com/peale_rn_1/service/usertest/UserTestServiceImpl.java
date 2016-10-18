@@ -24,18 +24,18 @@ public class UserTestServiceImpl implements UserTestService {
     public UserTestServiceImpl() {
     }
 
-    UserTestDaoImpl userTestDao = new UserTestDaoImpl(MainApplication.getContext());
-    CandidateTestWordsDaoImpl candidateTestWordsDao = new CandidateTestWordsDaoImpl(MainApplication.getContext());
-    CandidateTestDaoImpl candidateTestDao = new CandidateTestDaoImpl(MainApplication.getContext());
-    CandidateTestServiceImpl candidateTestService = new CandidateTestServiceImpl();
-    TestPreferenceServiceImpl testPreferenceService = new TestPreferenceServiceImpl();
+    private UserTestDaoImpl userTestDao = new UserTestDaoImpl(MainApplication.getContext());
+    private CandidateTestWordsDaoImpl candidateTestWordsDao = new CandidateTestWordsDaoImpl(MainApplication.getContext());
+    private CandidateTestDaoImpl candidateTestDao = new CandidateTestDaoImpl(MainApplication.getContext());
+    private CandidateTestServiceImpl candidateTestService = new CandidateTestServiceImpl();
+    private TestPreferenceServiceImpl testPreferenceService = new TestPreferenceServiceImpl();
 
     @Override
-    public void addUserTest1(String userId, String word, int testType, int testAspect, int testDifficulty,
-                             int rightTimes, int wrongTimes, int totalTimes, Date startTime, Date endTime) {
+    public void addUserTest(String userId, String word, int testType, int testAspect, int testDifficulty,
+                            int rightTimes, int wrongTimes, int totalTimes, Date startTime, Date endTime) {
         UserTest userTest = new UserTest(userId, word, testType, testAspect, testDifficulty, rightTimes, wrongTimes,
                 totalTimes, startTime, endTime);
-        userTestDao.save(userTest);
+        userTestDao.save(userTest);//--------------这里为何要再次保存，下面已经保存过了,应该用更新吧
         if (wrongTimes > 0) {
             CandidateTestWords ctw = new CandidateTestWords(userId, word, 2);
             if (candidateTestWordsDao.find(ctw.getUserId(), ctw.getWord()) == null)
@@ -123,27 +123,28 @@ public class UserTestServiceImpl implements UserTestService {
 
             String[] nextTwoWord = new String[2];
 
-            System.out.println("day中选的单词数为"+wordOfDay.length);
+            System.out.println("day中选的单词数为" + wordOfDay.length);
             //得到后两个单词
             if (candidateTestWords == null) {//在day中取两个单词
 
                 int n = 0;
                 for (i = 0; i < wordOfDay.length; i++) {//存入后两个单词
-                    int random =(int)(Math.random()*wordOfDay.length);
+                    int random = (int) (Math.random() * wordOfDay.length);
                     if (wordOfDay[random] != fourGroup[0][0] && wordOfDay[random] != fourGroup[1][0]) {
                         nextTwoWord[n++] = wordOfDay[random].getName();
                         if (n == 2) break;
                     }
                 }
-                for(i=2;i<4;i++){
-                    fourGroup[i][0]=nextTwoWord[i-2];
+                for (i = 2; i < 4; i++) {
+                    fourGroup[i][0] = nextTwoWord[i - 2];
                 }
             } else if (candidateTestWords.length == 1) {
                 fourGroup[2][0] = candidateTestWords[0].getWord();//把第三道题的单词存入fourGroup
                 for (i = 0; i < wordOfDay.length; i++) {//存入最后一个单词
-                    int random =(int)(Math.random()*wordOfDay.length);//产生一个[0,wordOfDay.length)之间的随机数
-                    if (wordOfDay[random] != fourGroup[0][0] && wordOfDay[random] != fourGroup[1][0]&&wordOfDay[random]!=fourGroup[2][0]) {
-                        nextTwoWord[0] = wordOfDay[random].getName();break;
+                    int random = (int) (Math.random() * wordOfDay.length);//产生一个[0,wordOfDay.length)之间的随机数
+                    if (wordOfDay[random] != fourGroup[0][0] && wordOfDay[random] != fourGroup[1][0] && wordOfDay[random] != fourGroup[2][0]) {
+                        nextTwoWord[0] = wordOfDay[random].getName();
+                        break;
                     }
                 }
                 fourGroup[3][0] = nextTwoWord[0];//把从day中取的题存入第四道
@@ -161,7 +162,7 @@ public class UserTestServiceImpl implements UserTestService {
                 System.out.println("生成的四个单词是" + fourGroup[i][0]);
             }
 
-            Date date=new Date();
+            Date date = new Date();
 
             //写入用户测试表中
             for (i = 0; i < 4; i++) {
@@ -169,7 +170,7 @@ public class UserTestServiceImpl implements UserTestService {
                         (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, new Date(), new Date());
                 userTestDao.save(userTest);
             }
-            System.out.println("startDate++++++" +date+"endDate+++++"+ new Date());
+            System.out.println("startDate++++++" + date + "endDate+++++" + new Date());
             List<UserTest> utlist = userTestDao.find(userId, 0);
             userTestDao.delete(utlist.get(utlist.size() - 4).getId());  //返回一道题目就删掉出题记录。
             return utlist.get(0);//上面只删除数据库中的一条，但表中仍是size为4.
