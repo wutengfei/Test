@@ -33,9 +33,11 @@ public class UserTestServiceImpl implements UserTestService {
     @Override
     public void addUserTest(String userId, String word, int testType, int testAspect, int testDifficulty,
                             int rightTimes, int wrongTimes, int totalTimes, Date startTime, Date endTime) {
+        totalTimes+=1;
         UserTest userTest = new UserTest(userId, word, testType, testAspect, testDifficulty, rightTimes, wrongTimes,
                 totalTimes, startTime, endTime);
-        userTestDao.save(userTest);//--------------这里为何要再次保存，下面已经保存过了,应该用更新吧
+
+        userTestDao.save(userTest);
         if (wrongTimes > 0) {
             CandidateTestWords ctw = new CandidateTestWords(userId, word, 2);
             if (candidateTestWordsDao.find(ctw.getUserId(), ctw.getWord()) == null)
@@ -53,13 +55,15 @@ public class UserTestServiceImpl implements UserTestService {
     public UserTest TestFourGroup(String userId, String[] words, int index) throws ParseException {
         //如果是获取第2，3,4道题目，则直接去用户测试表中获取
         for (int i = 0; i < 5; i++)
-            System.out.println("要考的单词：" + words[i]);
-
-        if (index > 1) {//第2，3，4道题
+            System.out.println("场景中的5个单词：" + words[i]);
+        System.out.println("index = " + index);
+        if (index >= 5) return null;
+        else if (index > 1) {//第2，3，4道题
             List<UserTest> list = userTestDao.find(userId, 0);
             if (list != null && list.size() >= 5 - index) {
-                userTestDao.delete(list.get(0).getId());  //拿走一道题目就删掉出题记录
-                return list.get(list.size() - (5 - index));
+                UserTest ut = list.get(list.size() - (5 - index));
+                userTestDao.delete(ut.getId());  //拿走一道题目就删掉出题记录
+                return ut;
             } else return null;
         } else {//第1道题
             List<CandidateTest> ctlist = candidateTestDao.getCandidate(userId);
@@ -167,13 +171,15 @@ public class UserTestServiceImpl implements UserTestService {
             //写入用户测试表中
             for (i = 0; i < 4; i++) {
                 UserTest userTest = new UserTest(userId, (String) fourGroup[i][0], (int) fourGroup[i][1],
-                        (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, new Date(), new Date());
+                        (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, date, date);
                 userTestDao.save(userTest);
             }
             System.out.println("startDate++++++" + date + "endDate+++++" + new Date());
             List<UserTest> utlist = userTestDao.find(userId, 0);
             userTestDao.delete(utlist.get(utlist.size() - 4).getId());  //返回一道题目就删掉出题记录。
-            return utlist.get(0);//上面只删除数据库中的一条，但表中仍是size为4.
+            return utlist.get(utlist.size() - 4);//上面只删除数据库中的一条，但表中仍是size为4.
+
+
         }
     }
 }

@@ -49,7 +49,7 @@ public class UserTestDaoImpl implements UserTestDao {
         UserTest[] userTest = new UserTest[resultCounts];
         for (int i = 0; i < resultCounts; i++) {
             userTest[i] = new UserTest();
-            userTest[i].setUserId(cursor.getString(cursor.getColumnIndex("id")));
+            userTest[i].setId(cursor.getInt(cursor.getColumnIndex("id")));
             userTest[i].setUserId(cursor.getString(cursor.getColumnIndex("userId")));
             userTest[i].setWord(cursor.getString(cursor.getColumnIndex("word")));
             userTest[i].setTestType(cursor.getInt(cursor.getColumnIndex("testType")));
@@ -64,22 +64,29 @@ public class UserTestDaoImpl implements UserTestDao {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             Date date = null;
-            try {
-                date = format.parse(startTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (startTime==null) {
+                date = new Date();
+            } else {
+                try {
+                    date = format.parse(startTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
             userTest[i].setStartTime(date);
 
             String endTime = cursor.getString(cursor.getColumnIndex("endTime"));
             //  System.out.println("endTime---------" + endTime);
             Date date2 = null;
-            try {
-                date2 = format.parse(endTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if (endTime==null) {
+                date2 = new Date();
+            } else {
+                try {
+                    date2 = format.parse(endTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
-
             userTest[i].setEndTime(date2);
 
             cursor.moveToNext();
@@ -100,7 +107,7 @@ public class UserTestDaoImpl implements UserTestDao {
         db.close();
     }
 
-    //保存
+    //更新
     public void update(UserTest userTest) {
         db = dbOpenHelper.getWritableDatabase();
 
@@ -116,7 +123,9 @@ public class UserTestDaoImpl implements UserTestDao {
 
     public void delete(int id) {
         db = dbOpenHelper.getWritableDatabase();
-        db.execSQL("DELETE FROM user_test WHERE id = " + id);
+        //db.execSQL("DELETE FROM user_test WHERE id like " + id);
+       int a= db.delete("user_test", "id like ?", new String[]{id+""});
+        System.out.println("删除成功了吗"+a+"id="+id);
         db.close();
     }
 }

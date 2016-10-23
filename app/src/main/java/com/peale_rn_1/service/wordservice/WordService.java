@@ -34,10 +34,10 @@ public class WordService {
         String[] oneWord = wordDAO.search(word);
         String[] twoWords = wordDAO.search();
         String pathPrefix = wordDAO.searchPath();
-        System.out.println("单词的图片，音频，课文原句：---------" + pathPrefix + "/" + oneWord[0] + "----"
-                + pathPrefix + "/" + oneWord[1] + "-----------" + oneWord[2]);
-        System.out.println("两个干扰单词及其图片：--" + twoWords[0] + "----" + pathPrefix + "/" + twoWords[1] + "-----"
-                + twoWords[2] + "---" + pathPrefix + "/" + twoWords[3]);
+//        System.out.println("单词的图片，音频，课文原句：---------" + pathPrefix + "/" + oneWord[0] + "----"
+//                + pathPrefix + "/" + oneWord[1] + "-----------" + oneWord[2]);
+//        System.out.println("两个干扰单词及其图片：--" + twoWords[0] + "----" + pathPrefix + "/" + twoWords[1] + "-----"
+//                + twoWords[2] + "---" + pathPrefix + "/" + twoWords[3]);
 //单词的图片，音频，课文原句,干扰单词1，干扰单词图片1，干扰单词2，干扰单词图片2
         String[] allWords = new String[7];
         allWords[0] = pathPrefix + "/" + oneWord[0];

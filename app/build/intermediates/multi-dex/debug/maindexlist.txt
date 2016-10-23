@@ -269,6 +269,7 @@ android/support/v4/view/ViewCompatMarshmallow.class
 android/support/v4/media/MediaBrowserCompat$CallbackHandler.class
 android/support/v4/view/WindowInsetsCompat.class
 com/facebook/react/bridge/SupportsWebWorkers.class
+com/brentvatne/react/ReactVideoPackage.class
 com/facebook/infer/annotation/Strict.class
 android/support/v4/media/VolumeProviderCompatApi21.class
 com/facebook/react/modules/storage/ReactDatabaseSupplier.class
@@ -293,6 +294,7 @@ com/facebook/drawee/generic/WrappingUtils.class
 com/facebook/react/animated/NativeAnimatedNodesManager.class
 com/lidroid/xutils/view/annotation/event/OnPreferenceChange.class
 android/support/v4/media/session/PlaybackStateCompatApi21.class
+com/burnweb/rnsimplealertdialog/RNSimpleAlertDialogModule.class
 com/facebook/react/modules/camera/ImageEditingManager.class
 com/facebook/imagepipeline/producers/NetworkFetcher.class
 com/facebook/cache/disk/SettableCacheEvent.class
@@ -341,8 +343,10 @@ android/support/annotation/ColorRes.class
 javax/annotation/RegEx.class
 com/facebook/react/views/textinput/ReactTextInputShadowNode.class
 com/facebook/react/modules/share/ShareModule.class
+com/brentvatne/react/ReactVideoViewManager.class
 android/support/v7/appcompat/R.class
 android/support/v7/widget/ActionMenuView$LayoutParams.class
+com/burnweb/rnsimplealertdialog/RNSimpleAlertDialogPackage.class
 android/support/annotation/InterpolatorRes.class
 com/facebook/react/bridge/WebsocketJavaScriptExecutor.class
 android/support/v4/content/PermissionChecker.class

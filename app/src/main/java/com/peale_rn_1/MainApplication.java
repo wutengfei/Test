@@ -16,6 +16,8 @@ import com.peale_rn_1.control.RNUserPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.brentvatne.react.ReactVideoPackage;
+import com.burnweb.rnsimplealertdialog.RNSimpleAlertDialogPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -33,7 +35,9 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNFilePackage(),//自定义模块，文件下载
                     new RNUserPackage(),//自定义模块，用户方面
                     new RNResourcePackage(), //自定义模块，资源方面
-                    new RNTestPackage()
+                    new RNTestPackage(),
+                    new ReactVideoPackage(),
+                    new RNSimpleAlertDialogPackage()
             );
         }
     };

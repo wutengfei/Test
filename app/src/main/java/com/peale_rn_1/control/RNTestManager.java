@@ -42,17 +42,18 @@ public class RNTestManager extends ReactContextBaseJavaModule {
         UserTestServiceImpl userTestService = new UserTestServiceImpl();
         String[] words = {"map", "river", "way", "trip", "round"};
         UserTest userTest = userTestService.TestFourGroup(userId, words, index);
-        String id = userTest.getUserId();
+        String word = userTest.getWord();
         int type = userTest.getTestType();
         int aspect = userTest.getTestAspect();
         int difficulty = userTest.getTestDifficulty();
         // UserTest ut = new UserTest(id, type, aspect, difficulty);
         WritableArray writableArray = Arguments.createArray();
-        writableArray.pushString(id);
+        writableArray.pushString(word);
         writableArray.pushInt(type);
         writableArray.pushInt(aspect);
         writableArray.pushInt(difficulty);
         successCallback.invoke(writableArray);
+        System.out.println("四元组中的单词"+word);
     }
 
     /**
@@ -63,6 +64,7 @@ public class RNTestManager extends ReactContextBaseJavaModule {
      */
     @ReactMethod
     public void listWordResource(String content, Callback successCallback) {
+        System.out.println("测试的单词------"+content);
         WordService wordService = new WordService();
         WritableArray writableArray = wordService.search(content);
         successCallback.invoke(writableArray);
@@ -85,16 +87,16 @@ public class RNTestManager extends ReactContextBaseJavaModule {
         System.out.println("获得金币数-------" + token);
         userDAO.isAnswerRight(userId, rightTimes, wrongTimes, token);
         //答题之后将UserTest类型的实体类传递给addUserTest
-        UserTestServiceImpl userTestService = new UserTestServiceImpl();
-        UserTestDaoImpl userTestDao = new UserTestDaoImpl(MainApplication.getContext());
-        List<UserTest> list = userTestDao.find(userId, word);
-        int testType = list.get(0).getTestType();
-        int testAspect = list.get(0).getTestAspect();
-        int testDifficult = list.get(0).getTestDifficulty();
-        int totalTimes = list.get(0).getTotalTimes();
-        Date startTime = list.get(0).getStartTime();
-        Date endTime = list.get(0).getEndTime();
-        userTestService.addUserTest(userId, word, testType, testAspect, testDifficult, rightTimes, wrongTimes, totalTimes, startTime, endTime);
+//        UserTestServiceImpl userTestService = new UserTestServiceImpl();
+//        UserTestDaoImpl userTestDao = new UserTestDaoImpl(MainApplication.getContext());
+//        List<UserTest> list = userTestDao.find(userId, word);
+//        int testType = list.get(0).getTestType();
+//        int testAspect = list.get(0).getTestAspect();
+//        int testDifficult = list.get(0).getTestDifficulty();
+//        int totalTimes = list.get(0).getTotalTimes();
+//        Date startTime = list.get(0).getStartTime();
+//        Date endTime = list.get(0).getEndTime();
+//        userTestService.addUserTest(userId, word, testType, testAspect, testDifficult, rightTimes, wrongTimes, totalTimes, startTime, endTime);
 
 
     }
