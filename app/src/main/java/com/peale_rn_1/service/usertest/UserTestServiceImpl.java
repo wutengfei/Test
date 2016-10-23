@@ -32,12 +32,14 @@ public class UserTestServiceImpl implements UserTestService {
 
     @Override
     public void addUserTest(String userId, String word, int testType, int testAspect, int testDifficulty,
-                            int rightTimes, int wrongTimes, int totalTimes, Date startTime, Date endTime) {
+                            int rightTimes, int wrongTimes, int totalTimes, Date startTime, Date endTime) throws ParseException {
         totalTimes+=1;
         UserTest userTest = new UserTest(userId, word, testType, testAspect, testDifficulty, rightTimes, wrongTimes,
                 totalTimes, startTime, endTime);
 
         userTestDao.save(userTest);
+        List<UserTest> utlist = userTestDao.find(userId, 0);
+        userTestDao.delete(utlist.get(0).getId());
         if (wrongTimes > 0) {
             CandidateTestWords ctw = new CandidateTestWords(userId, word, 2);
             if (candidateTestWordsDao.find(ctw.getUserId(), ctw.getWord()) == null)
@@ -62,7 +64,7 @@ public class UserTestServiceImpl implements UserTestService {
             List<UserTest> list = userTestDao.find(userId, 0);
             if (list != null && list.size() >= 5 - index) {
                 UserTest ut = list.get(list.size() - (5 - index));
-                userTestDao.delete(ut.getId());  //拿走一道题目就删掉出题记录
+               // userTestDao.delete(ut.getId());  //拿走一道题目就删掉出题记录
                 return ut;
             } else return null;
         } else {//第1道题
@@ -176,7 +178,7 @@ public class UserTestServiceImpl implements UserTestService {
             }
             System.out.println("startDate++++++" + date + "endDate+++++" + new Date());
             List<UserTest> utlist = userTestDao.find(userId, 0);
-            userTestDao.delete(utlist.get(utlist.size() - 4).getId());  //返回一道题目就删掉出题记录。
+        //    userTestDao.delete(utlist.get(utlist.size() - 4).getId());  //返回一道题目就删掉出题记录。
             return utlist.get(utlist.size() - 4);//上面只删除数据库中的一条，但表中仍是size为4.
 
 

@@ -30,7 +30,7 @@ public class UserTestDaoImpl implements UserTestDao {
             Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTime = 0", new String[]{userId});
             return ConvertToUserTest(cursor);
         } else {
-            Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTime = 1", new String[]{userId});
+            Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTime > 0", new String[]{userId});
             return ConvertToUserTest(cursor);
         }
     }

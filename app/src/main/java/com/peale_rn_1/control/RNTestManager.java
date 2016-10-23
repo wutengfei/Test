@@ -87,16 +87,16 @@ public class RNTestManager extends ReactContextBaseJavaModule {
         System.out.println("获得金币数-------" + token);
         userDAO.isAnswerRight(userId, rightTimes, wrongTimes, token);
         //答题之后将UserTest类型的实体类传递给addUserTest
-//        UserTestServiceImpl userTestService = new UserTestServiceImpl();
-//        UserTestDaoImpl userTestDao = new UserTestDaoImpl(MainApplication.getContext());
-//        List<UserTest> list = userTestDao.find(userId, word);
-//        int testType = list.get(0).getTestType();
-//        int testAspect = list.get(0).getTestAspect();
-//        int testDifficult = list.get(0).getTestDifficulty();
-//        int totalTimes = list.get(0).getTotalTimes();
-//        Date startTime = list.get(0).getStartTime();
-//        Date endTime = list.get(0).getEndTime();
-//        userTestService.addUserTest(userId, word, testType, testAspect, testDifficult, rightTimes, wrongTimes, totalTimes, startTime, endTime);
+        UserTestServiceImpl userTestService = new UserTestServiceImpl();
+        UserTestDaoImpl userTestDao = new UserTestDaoImpl(MainApplication.getContext());
+        List<UserTest> list = userTestDao.find(userId, word);
+        int testType = list.get(0).getTestType();
+        int testAspect = list.get(0).getTestAspect();
+        int testDifficult = list.get(0).getTestDifficulty();
+        int totalTimes = list.get(0).getTotalTimes();
+        Date startTime = list.get(0).getStartTime();
+        Date endTime = list.get(0).getEndTime();
+        userTestService.addUserTest(userId, word, testType, testAspect, testDifficult, rightTimes, wrongTimes, totalTimes, startTime, endTime);
 
 
     }
