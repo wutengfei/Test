@@ -16,6 +16,18 @@ import java.util.List;
  */
 public interface CandidateTestDao  {
 	/**
+	 * 保存
+	 * @param candidateTest
+     */
+	public void save(CandidateTest candidateTest);
+
+	/**
+	 * 更新
+	 * @param candidateTest
+     */
+	public void update(CandidateTest candidateTest);
+
+	/**
 	 * 获取当前用户为备选状态的测试类型
 	 * @param userId
 	 * @return
@@ -31,4 +43,11 @@ public interface CandidateTestDao  {
 	 * @return
 	 */
 	public CandidateTest find(String userId, int testType, int testAspect, int testDifficulty);
+
+	/**
+	 *
+	 * @param queryParams
+	 * @return
+     */
+	public CandidateTest[] getAllData(Object[] queryParams);
 }

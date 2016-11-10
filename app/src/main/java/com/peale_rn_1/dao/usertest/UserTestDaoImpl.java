@@ -24,25 +24,25 @@ public class UserTestDaoImpl implements UserTestDao {
 
     //查找通过userId，flag
     @Override
-    public List<UserTest> find(String userId, int flag) throws ParseException {
+    public List<UserTest> find(String userId, int flag)  {
         db = dbOpenHelper.getWritableDatabase();
-        if (flag == 0) {
+        if (flag == 0) {//未测试过
             Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTime = 0", new String[]{userId});
             return ConvertToUserTest(cursor);
-        } else {
+        } else {//已测试过
             Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and totalTime > 0", new String[]{userId});
             return ConvertToUserTest(cursor);
         }
     }
 
     //查找,通过userId,word
-    public List<UserTest> find(String userId, String word) throws ParseException {
+    public List<UserTest> find(String userId, String word) {
         db = dbOpenHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM user_test where userId like ? and word like ?", new String[]{userId, word});
         return ConvertToUserTest(cursor);
     }
 
-    private List<UserTest> ConvertToUserTest(Cursor cursor) throws ParseException {
+    private List<UserTest> ConvertToUserTest(Cursor cursor)  {
         int resultCounts = cursor.getCount();
         if (resultCounts == 0 || !cursor.moveToFirst())
             return null;
@@ -58,13 +58,15 @@ public class UserTestDaoImpl implements UserTestDao {
             userTest[i].setRightTimes(cursor.getInt(cursor.getColumnIndex("rightTimes")));
             userTest[i].setWrongTimes(cursor.getInt(cursor.getColumnIndex("wrongTimes")));
             userTest[i].setTotalTimes(cursor.getInt(cursor.getColumnIndex("totalTime")));
+            userTest[i].setStartTime(cursor.getString(cursor.getColumnIndex("startTime")));
+            userTest[i].setEndTime(cursor.getString(cursor.getColumnIndex("endTime")));
 
-            String startTime = cursor.getString(cursor.getColumnIndex("startTime"));
+        /*    String startTime = cursor.getString(cursor.getColumnIndex("startTime"));
             // System.out.println("startTime---------" + startTime);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             Date date = null;
-            if (startTime==null) {
+            if (startTime == null) {
                 date = new Date();
             } else {
                 try {
@@ -78,7 +80,7 @@ public class UserTestDaoImpl implements UserTestDao {
             String endTime = cursor.getString(cursor.getColumnIndex("endTime"));
             //  System.out.println("endTime---------" + endTime);
             Date date2 = null;
-            if (endTime==null) {
+            if (endTime == null) {
                 date2 = new Date();
             } else {
                 try {
@@ -87,7 +89,7 @@ public class UserTestDaoImpl implements UserTestDao {
                     e.printStackTrace();
                 }
             }
-            userTest[i].setEndTime(date2);
+            userTest[i].setEndTime(date2);*/
 
             cursor.moveToNext();
         }
@@ -119,13 +121,12 @@ public class UserTestDaoImpl implements UserTestDao {
         db.close();
     }
 
-//删除
-
+    //删除
     public void delete(int id) {
         db = dbOpenHelper.getWritableDatabase();
         //db.execSQL("DELETE FROM user_test WHERE id like " + id);
-       int a= db.delete("user_test", "id like ?", new String[]{id+""});
-        System.out.println("删除成功了吗"+a+"id="+id);
+        int a = db.delete("user_test", "id like ?", new String[]{id + ""});
+        System.out.println("删除成功了吗" + a + "id=" + id);
         db.close();
     }
 }

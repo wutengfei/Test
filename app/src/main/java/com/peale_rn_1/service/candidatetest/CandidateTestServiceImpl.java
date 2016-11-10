@@ -39,8 +39,7 @@ public class CandidateTestServiceImpl implements CandidateTestService {
     }
 
     @Override
-    public void UpdateCandidateTestCount(String userId, int testType, int testAspect, int testDifficulty,
-                                         int passtime) {
+    public void UpdateCandidateTestCount(String userId, int testType, int testAspect, int testDifficulty, int passtime) {
         CandidateTest ct = candidateTestDao.find(userId, testType, testAspect, testDifficulty);
         int[] pass = new int[3];
         if (ct != null) {
@@ -203,11 +202,11 @@ public class CandidateTestServiceImpl implements CandidateTestService {
     @Override
     public void AddBatchCandidateTest(String userId) {
         // TODO Auto-generated method stub
-           AddCandidateTest(userId, 1, 1, 2, 1);
-           AddCandidateTest(userId, 2, 3, 2, 1);
-           AddCandidateTest(userId, 4, 3, 2, 1);
-           AddCandidateTest(userId, 1, 3, 2, 1);
-           AddCandidateTest(userId, 4, 4, 2, 1);
+        AddCandidateTest(userId, 1, 1, 2, 1);
+        AddCandidateTest(userId, 2, 3, 2, 1);
+        AddCandidateTest(userId, 4, 3, 2, 1);
+        AddCandidateTest(userId, 1, 3, 2, 1);
+        AddCandidateTest(userId, 4, 4, 2, 1);
 
     }
 

@@ -1,13 +1,12 @@
 package com.peale_rn_1.control;
 
-import com.facebook.imagepipeline.producers.NetworkFetcher;
 import com.facebook.react.bridge.*;
 import com.peale_rn_1.MainApplication;
 import com.peale_rn_1.dao.UserDAO;
 import com.peale_rn_1.dao.usertest.UserTestDaoImpl;
 import com.peale_rn_1.model.UserTest;
 import com.peale_rn_1.service.usertest.UserTestServiceImpl;
-import com.peale_rn_1.service.wordservice.WordService;
+import com.peale_rn_1.service.wordservice.WordServiceImpl;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -52,8 +51,8 @@ public class RNTestManager extends ReactContextBaseJavaModule {
         writableArray.pushInt(type);
         writableArray.pushInt(aspect);
         writableArray.pushInt(difficulty);
-        successCallback.invoke(writableArray);
         System.out.println("四元组中的单词"+word);
+        successCallback.invoke(writableArray);
     }
 
     /**
@@ -65,13 +64,13 @@ public class RNTestManager extends ReactContextBaseJavaModule {
     @ReactMethod
     public void listWordResource(String content, Callback successCallback) {
         System.out.println("测试的单词------"+content);
-        WordService wordService = new WordService();
-        WritableArray writableArray = wordService.search(content);
+        WordServiceImpl wordServiceImpl = new WordServiceImpl();
+        WritableArray writableArray = wordServiceImpl.search(content);
         successCallback.invoke(writableArray);
     }
 
     /**
-     * 通过用户的用户ID在用户信息表里找到该用户后，并记录该题用户是否回答正确，如果回答正确
+     * 通过用户的用户ID在用户信息表里找到该用户后，记录该题用户是否回答正确，如果回答正确
      * 在用户信息表中金币数加上此关获得的金币数，rightTimes+1,若回答错误wrongTimes+1
      *
      * @param userId
@@ -94,8 +93,8 @@ public class RNTestManager extends ReactContextBaseJavaModule {
         int testAspect = list.get(0).getTestAspect();
         int testDifficult = list.get(0).getTestDifficulty();
         int totalTimes = list.get(0).getTotalTimes();
-        Date startTime = list.get(0).getStartTime();
-        Date endTime = list.get(0).getEndTime();
+        String startTime = list.get(0).getStartTime();
+        String endTime = list.get(0).getEndTime();
         userTestService.addUserTest(userId, word, testType, testAspect, testDifficult, rightTimes, wrongTimes, totalTimes, startTime, endTime);
 
 

@@ -27,7 +27,7 @@ public interface UserTestService {
 	 * @param endTime
 	 */
     public void addUserTest(String userId, String word, int testType, int testAspect, int testDifficulty,
-							 int rightTimes, int wrongTimes, int totalTimes, Date startTime, Date endTime) throws ParseException;
+							 int rightTimes, int wrongTimes, int totalTimes, String startTime, String endTime);
     
     /**
      * 小测四道题目的出题
@@ -36,5 +36,5 @@ public interface UserTestService {
      * @param index 第几道题
      * @return 四元组
      */
-    public UserTest TestFourGroup(String userId, String[] words, int index) throws ParseException;
+    public UserTest TestFourGroup(String userId, String[] words, int index) ;
 }

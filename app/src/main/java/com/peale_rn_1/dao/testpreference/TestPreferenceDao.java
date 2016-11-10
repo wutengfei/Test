@@ -19,4 +19,16 @@ public interface TestPreferenceDao {
 	 * @return
 	 */
 	public TestPreference find(String userId, String feature, int featureValue);
+
+	/**
+	 * 保存
+	 * @param testPreference
+     */
+	public void save(TestPreference testPreference);
+
+	/**
+	 * 更新
+	 * @param testPreference
+     */
+	public void update(TestPreference testPreference);
 }

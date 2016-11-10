@@ -10,7 +10,12 @@ import com.peale_rn_1.model.CandidateTestWords;
  *
  */
 public interface CandidateTestWordsDao  {
-
+	/**
+	 *
+	 * @param userId
+	 * @return
+     */
+	public CandidateTestWords[] find(String userId);
 	/**
 	 * 获取指定用户指定难度的备考内容 并移除表中
 	 * @param userId
@@ -26,4 +31,10 @@ public interface CandidateTestWordsDao  {
 	 * @return
 	 */
 	public CandidateTestWords find(String userId, String word);
+
+	/**
+	 * 保存候选测试单词
+	 * @param candidateTestWords
+     */
+	public void save(CandidateTestWords candidateTestWords);
 }

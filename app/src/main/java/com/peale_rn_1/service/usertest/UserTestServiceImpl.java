@@ -11,7 +11,7 @@ import com.peale_rn_1.model.Tb_word;
 import com.peale_rn_1.model.UserTest;
 import com.peale_rn_1.service.candidatetest.CandidateTestServiceImpl;
 import com.peale_rn_1.service.testpreference.TestPreferenceServiceImpl;
-import com.peale_rn_1.service.wordservice.WordService;
+import com.peale_rn_1.service.wordservice.WordServiceImpl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,14 +32,14 @@ public class UserTestServiceImpl implements UserTestService {
 
     @Override
     public void addUserTest(String userId, String word, int testType, int testAspect, int testDifficulty,
-                            int rightTimes, int wrongTimes, int totalTimes, Date startTime, Date endTime) throws ParseException {
+                            int rightTimes, int wrongTimes, int totalTimes, String startTime, String endTime)  {
         totalTimes+=1;
         UserTest userTest = new UserTest(userId, word, testType, testAspect, testDifficulty, rightTimes, wrongTimes,
                 totalTimes, startTime, endTime);
 
-        userTestDao.save(userTest);
+        userTestDao.save(userTest);//添加一条totalTimes>0的userTest数据
         List<UserTest> utlist = userTestDao.find(userId, 0);
-        userTestDao.delete(utlist.get(0).getId());
+        userTestDao.delete(utlist.get(0).getId());//删除一条totalTimes=0的userTest数据
         if (wrongTimes > 0) {
             CandidateTestWords ctw = new CandidateTestWords(userId, word, 2);
             if (candidateTestWordsDao.find(ctw.getUserId(), ctw.getWord()) == null)
@@ -54,7 +54,7 @@ public class UserTestServiceImpl implements UserTestService {
     }
 
     @Override
-    public UserTest TestFourGroup(String userId, String[] words, int index) throws ParseException {
+    public UserTest TestFourGroup(String userId, String[] words, int index) {
         //如果是获取第2，3,4道题目，则直接去用户测试表中获取
         for (int i = 0; i < 5; i++)
             System.out.println("场景中的5个单词：" + words[i]);
@@ -119,12 +119,12 @@ public class UserTestServiceImpl implements UserTestService {
 
 //从候选测试单词表中取出两个单词，若没有就从当前day中随机取两个，并保证主题和年级要和前面的两个单词一致
             CandidateTestWords[] candidateTestWords = candidateTestWordsDao.find(userId);
-            WordService wordService = new WordService();
+            WordServiceImpl wordServiceImpl = new WordServiceImpl();
             CandidateTestWords nextTwoWords[] = new CandidateTestWords[2];
 
             String firstWord = fourGroup[0][0] + "";
-            String[] topicAndGrade = wordService.find(firstWord);//根据传过来的单词查询出年级和主题
-            Tb_word[] wordOfDay = wordService.find(topicAndGrade[0], topicAndGrade[1]);//根据主题和年级查找与该单词同主题和年级下的单词
+            String[] topicAndGrade = wordServiceImpl.find(firstWord);//根据传过来的单词查询出年级和主题
+            Tb_word[] wordOfDay = wordServiceImpl.find(topicAndGrade[0], topicAndGrade[1]);//根据主题和年级查找与该单词同主题和年级下的单词
 
 
             String[] nextTwoWord = new String[2];
@@ -169,19 +169,20 @@ public class UserTestServiceImpl implements UserTestService {
             }
 
             Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String datetime = formatter.format(date);//格式化时间
+
 
             //写入用户测试表中
             for (i = 0; i < 4; i++) {
                 UserTest userTest = new UserTest(userId, (String) fourGroup[i][0], (int) fourGroup[i][1],
-                        (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, date, date);
+                        (int) fourGroup[i][2], (int) fourGroup[i][3], 0, 0, 0, datetime, datetime);
                 userTestDao.save(userTest);
             }
-            System.out.println("startDate++++++" + date + "endDate+++++" + new Date());
+            System.out.println("startDate-----" + datetime + "endDate-----" +datetime);
             List<UserTest> utlist = userTestDao.find(userId, 0);
-        //    userTestDao.delete(utlist.get(utlist.size() - 4).getId());  //返回一道题目就删掉出题记录。
-            return utlist.get(utlist.size() - 4);//上面只删除数据库中的一条，但表中仍是size为4.
 
-
+            return utlist.get(utlist.size() - 4);
         }
     }
 }

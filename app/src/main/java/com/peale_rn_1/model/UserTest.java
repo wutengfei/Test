@@ -17,8 +17,8 @@ public class UserTest {
     private int rightTimes;
     private int wrongTimes;
     private int totalTimes;
-    private Date startTime;
-    private Date endTime;
+    private String startTime;
+    private String endTime;
 
     public UserTest() {
     }
@@ -31,7 +31,7 @@ public class UserTest {
     }
 
     public UserTest(String userId, String word, int testType, int testAspect, int testDifficulty, int rightTimes,
-                    int wrongTimes, int totalTimes, Date startTime, Date endTime) {
+                    int wrongTimes, int totalTimes, String startTime, String endTime) {
         this.userId = userId;
         this.word = word;
         this.testType = testType;
@@ -45,7 +45,7 @@ public class UserTest {
     }
 
     public UserTest(int id, String userId, String word, int testType, int testAspect, int testDifficulty, int rightTimes,
-                    int wrongTimes, int totalTimes, Date startTime, Date endTime) {
+                    int wrongTimes, int totalTimes, String startTime, String endTime) {
         this.id = id;
         this.userId = userId;
         this.word = word;
@@ -131,19 +131,19 @@ public class UserTest {
         this.totalTimes = totalTimes;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 }
